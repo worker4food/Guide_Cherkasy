@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,10 +20,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity" />
+
         <activity
             android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
-            tools:replace="android:launchMode"
-            android:launchMode="standard" />
+            android:launchMode="standard"
+            tools:replace="android:launchMode" />
     </application>
 
 </manifest>
