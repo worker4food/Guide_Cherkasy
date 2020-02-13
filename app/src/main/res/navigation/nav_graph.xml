@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/startScreenFragment">
+    app:startDestination="@+id/startScreenFragment">
 
     <fragment
         android:id="@+id/startScreenFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.startScreen.StartScreenFragment"
-        android:label="Start Screen Fragment"
-        tools:layout="@layout/fragment_start_screen" >
+        android:label="Cherkasy"
+        tools:layout="@layout/fragment_start_screen">
         <action
             android:id="@+id/action_startScreenFragment_to_placesListFragment"
             app:destination="@id/placesListFragment" />
@@ -22,7 +22,7 @@
         android:id="@+id/placesListFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.placeslist.PlacesListFragment"
         android:label="Places List Fragment"
-        tools:layout="@layout/fragment_places_list" >
+        tools:layout="@layout/fragment_places_list">
         <action
             android:id="@+id/action_placesListFragment_to_placeDetailFragment"
             app:destination="@id/placeDetailFragment" />
@@ -34,7 +34,7 @@
     <fragment
         android:id="@+id/placeDetailFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.placedetail.PlaceDetailFragment"
-        android:label="Place Detail Fragment" >
+        android:label="Place Detail Fragment">
         <action
             android:id="@+id/action_placeDetailFragment_to_placeMapFragment"
             app:destination="@id/placeMapFragment" />
@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/routeFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.route.RouteFragment"
-        android:label="Route Fragment" >
+        android:label="Route Fragment">
         <action
             android:id="@+id/action_routeFragment_to_routeMapFragment"
             app:destination="@id/routeMapFragment" />
