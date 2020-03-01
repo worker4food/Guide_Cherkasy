@@ -14,8 +14,8 @@
             android:id="@+id/action_startScreenFragment_to_placesListFragment"
             app:destination="@id/placesListFragment" />
         <action
-            android:id="@+id/action_startScreenFragment_to_routeFragment"
-            app:destination="@id/routeFragment" />
+            android:id="@+id/action_startScreenFragment_to_routesFragment"
+            app:destination="@id/routesFragment" />
     </fragment>
 
     <fragment
@@ -56,13 +56,17 @@
     <fragment
         android:id="@+id/routeFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.route.RouteFragment"
-        android:label="Route Fragment">
+        android:label="{title}">
         <action
             android:id="@+id/action_routeFragment_to_routeMapFragment"
             app:destination="@id/routeMapFragment" />
-        <action
-            android:id="@+id/action_routeFragment_to_createRouteFragment"
-            app:destination="@id/createRouteFragment" />
+        <argument
+            android:name="route"
+            app:argType="com.geekhub_android_2019.cherkasyguide.models.Route" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -74,5 +78,17 @@
         android:id="@+id/createRouteFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.createroute.CreateRouteFragment"
         android:label="Create Route Fragment" />
+    <fragment
+        android:id="@+id/routesFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.routelist.RouteListFragment"
+        android:label="Routes"
+        tools:layout="@layout/fragment_routes_list">
+        <action
+            android:id="@+id/action_routesFragment_to_routeFragment"
+            app:destination="@id/routeFragment" />
+        <action
+            android:id="@+id/action_routesFragment_to_createRouteFragment"
+            app:destination="@id/createRouteFragment" />
+    </fragment>
 
 </navigation>
