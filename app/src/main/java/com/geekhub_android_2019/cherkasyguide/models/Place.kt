@@ -11,4 +11,3 @@ data class Place(
     val description: String? = null,
     val photoSmallUrl: String? = null
 ): Serializable
-
