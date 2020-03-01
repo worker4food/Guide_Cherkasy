@@ -12,7 +12,7 @@ class StartScreenViewModel : ViewModel() {
             R.id.cardView_what_to_see ->
                 view.findNavController().navigate(R.id.action_startScreenFragment_to_placesListFragment)
             R.id.cardView_routes ->
-                view.findNavController().navigate(R.id.action_startScreenFragment_to_routeFragment)
+                view.findNavController().navigate(R.id.action_startScreenFragment_to_routesFragment)
         }
     }
 }

@@ -4,5 +4,9 @@
     <string name="what_to_see">What to see</string>
     <string name="routes">Routes</string>
     <string name="map">Map</string>
+    <string name="regular_routes">Regular routes</string>
+    <string name="user_route">Custom route</string>
 
+    <string name="dummy">Dummy</string>
+    <string name="create_new_route">Create new</string>
 </resources>
