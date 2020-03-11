@@ -35,13 +35,17 @@
     <fragment
         android:id="@+id/placeDetailFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.placedetail.PlaceDetailFragment"
-        android:label="Place Detail Fragment">
+        android:label="{placeTitle}">
         <action
             android:id="@+id/action_placeDetailFragment_to_placeMapFragment"
             app:destination="@id/placeMapFragment" />
         <argument
             android:name="place"
             app:argType="com.geekhub_android_2019.cherkasyguide.models.Place" />
+        <argument
+            android:name="placeTitle"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment

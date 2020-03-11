@@ -9,5 +9,6 @@ data class Place(
     val name: String? = null,
     val location: GeoPoint? = null,
     val description: String? = null,
-    val photoSmallUrl: String? = null
-): Serializable
+    val photoSmallUrl: String? = null,
+    val photoLargeUrl: List<String>? = null
+) : Serializable
