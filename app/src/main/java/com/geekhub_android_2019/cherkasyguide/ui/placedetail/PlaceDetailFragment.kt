@@ -36,7 +36,6 @@ class PlaceDetailFragment : Fragment() {
         fragmentLayout.bottom_nav_view.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.map_nav -> {
-                    println("map pressed")
                     detailViewModel.replaceDetailFragment(this.requireView())
                 }
             }

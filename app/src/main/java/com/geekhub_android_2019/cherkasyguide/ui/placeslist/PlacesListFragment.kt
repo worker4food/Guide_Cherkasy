@@ -34,7 +34,6 @@ class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
         fragmentLayout.bottom_nav_view.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.map_nav -> {
-                    println("map pressed")
                     listViewModel.replaceFragment(this.requireView())
                 }
             }
