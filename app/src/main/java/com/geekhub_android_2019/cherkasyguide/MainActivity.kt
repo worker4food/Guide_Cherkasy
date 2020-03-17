@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<NavigationView>(R.id.navigation_view)
             .setupWithNavController(navController)
         findViewById<Toolbar>(R.id.toolbar)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

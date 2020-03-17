@@ -1,9 +1,9 @@
-package com.geekhub_android_2019.cherkasyguide.ui.routelist
+package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.geekhub_android_2019.cherkasyguide.models.Route
-import com.geekhub_android_2019.cherkasyguide.ui.routelist.models.RouteItem
+import com.geekhub_android_2019.cherkasyguide.ui.routeslist.models.RouteItem
 import kotlinx.android.synthetic.main.fragment_routes_create_new.view.*
 import kotlinx.android.synthetic.main.fragment_routes_group_separator.view.*
 import kotlinx.android.synthetic.main.fragment_routes_list_item.view.*

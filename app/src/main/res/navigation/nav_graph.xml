@@ -88,7 +88,7 @@
         android:label="Create Route Fragment" />
     <fragment
         android:id="@+id/routesFragment"
-        android:name="com.geekhub_android_2019.cherkasyguide.ui.routelist.RouteListFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.routeslist.RouteListFragment"
         android:label="Routes"
         tools:layout="@layout/fragment_routes_list">
         <action

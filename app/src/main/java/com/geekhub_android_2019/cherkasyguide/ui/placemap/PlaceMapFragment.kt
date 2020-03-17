@@ -32,8 +32,9 @@ class PlaceMapFragment : Fragment(R.layout.fragment_place_map), OnMapReadyCallba
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        placeViewModel.addMarker(mMap)
-        placeViewModel.moveCamera(mMap)
+
+        mMap.uiSettings.isMapToolbarEnabled = false
+        placeViewModel.createMap(mMap, activity!!.applicationContext)
     }
 
     override fun onResume() {

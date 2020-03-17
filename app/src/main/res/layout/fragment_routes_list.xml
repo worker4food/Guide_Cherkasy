@@ -8,5 +8,5 @@
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
     android:orientation="vertical"
-    tools:context=".ui.routelist.RouteListFragment"
+    tools:context=".ui.routeslist.RouteListFragment"
     tools:listitem="@layout/fragment_routes_list_item" />
