@@ -42,11 +42,9 @@ object MapHelper {
         context: Context
     ) {
         val manager = ClusterManager<PlaceMarker>(context, googleMap)
-        manager.renderer = ClusterMarkerRendered(context, googleMap, manager)
+        manager.renderer = ClusterMarkerRenderer(context, googleMap, manager)
         manager.algorithm = GridBasedAlgorithm()
         manager.addItems(markerList)
-        googleMap.setOnCameraIdleListener(manager)
-        googleMap.setOnMarkerClickListener(manager)
         manager.cluster()
     }
 

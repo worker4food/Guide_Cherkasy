@@ -13,7 +13,7 @@ import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 
-class ClusterMarkerRendered(
+class ClusterMarkerRenderer(
     context: Context,
     map: GoogleMap,
     clusterManager: ClusterManager<PlaceMarker>
@@ -21,12 +21,17 @@ class ClusterMarkerRendered(
     DefaultClusterRenderer<PlaceMarker>(context, map, clusterManager),
     ClusterManager.OnClusterClickListener<PlaceMarker> {
 
+    private val googleMap: GoogleMap = map
     private val b = BitmapFactory.decodeResource(
         context.resources,
         R.drawable.pin_blue
     )
 
-    private val googleMap = map
+    init {
+        clusterManager.setOnClusterClickListener(this)
+        googleMap.setOnCameraIdleListener(clusterManager)
+        googleMap.setOnMarkerClickListener(clusterManager)
+    }
 
     override fun onBeforeClusterItemRendered(item: PlaceMarker, markerOptions: MarkerOptions) {
         val icon = Bitmap.createScaledBitmap(b, 100, 100, false)

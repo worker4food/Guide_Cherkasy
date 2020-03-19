@@ -1,7 +1,6 @@
 package com.geekhub_android_2019.cherkasyguide.maputils
 
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterItem
 
 class PlaceMarker(lat: Double, lng: Double, title: String) : ClusterItem {

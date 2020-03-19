@@ -8,9 +8,9 @@ import androidx.navigation.fragment.navArgs
 import com.geekhub_android_2019.cherkasyguide.R
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import kotlinx.android.synthetic.main.fragment_place_map.*
+import kotlinx.android.synthetic.main.fragment_map.*
 
-class PlaceMapFragment : Fragment(R.layout.fragment_place_map), OnMapReadyCallback {
+class PlaceMapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
     private val args: PlaceMapFragmentArgs by navArgs()
     private val placeViewModel: PlaceViewModel by activityViewModels()
