@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/placesListFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.placeslist.PlacesListFragment"
-        android:label="Places List Fragment"
+        android:label="Locations Cherkasy"
         tools:layout="@layout/fragment_places_list">
         <action
             android:id="@+id/action_placesListFragment_to_placeDetailFragment"
@@ -51,7 +51,7 @@
     <fragment
         android:id="@+id/placeMapFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.placemap.PlaceMapFragment"
-        android:label="Place Map Fragment">
+        android:label="Map of Cherkasy">
         <argument
             android:name="places"
             app:argType="com.geekhub_android_2019.cherkasyguide.models.Places" />
