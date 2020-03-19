@@ -2,7 +2,7 @@ package com.geekhub_android_2019.cherkasyguide.ui.placemap
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.geekhub_android_2019.cherkasyguide.MapHelper
+import com.geekhub_android_2019.cherkasyguide.maputils.MapHelper
 import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.google.android.gms.maps.GoogleMap
 
