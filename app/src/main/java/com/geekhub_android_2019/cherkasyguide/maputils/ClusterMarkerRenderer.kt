@@ -34,6 +34,7 @@ class ClusterMarkerRenderer(
     }
 
     override fun onBeforeClusterItemRendered(item: PlaceMarker, markerOptions: MarkerOptions) {
+        super.onBeforeClusterItemRendered(item, markerOptions)
         val icon = Bitmap.createScaledBitmap(b, 100, 100, false)
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon))
         markerOptions.title(item.title)

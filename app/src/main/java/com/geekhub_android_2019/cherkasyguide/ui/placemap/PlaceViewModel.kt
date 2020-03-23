@@ -11,10 +11,18 @@ class PlaceViewModel : ViewModel() {
     private lateinit var _places: Places
     val places: Places get() = _places
 
+    private lateinit var mMap: GoogleMap
+
     fun init(places: Places) {
         _places = places
     }
 
-    fun createMap(googleMap: GoogleMap, context: Context) =
-        MapHelper.setUpMap(googleMap, _places, context)
+    fun createMap(googleMap: GoogleMap, context: Context) {
+        mMap = googleMap
+        mMap.uiSettings.isMapToolbarEnabled = false
+        MapHelper.clearMap(googleMap)
+        val markersList = MapHelper.getMarkerList(_places)
+        MapHelper.setUpClusterOfMarkers(mMap, markersList, context)
+        MapHelper.setUpCamera(markersList, mMap)
+    }
 }

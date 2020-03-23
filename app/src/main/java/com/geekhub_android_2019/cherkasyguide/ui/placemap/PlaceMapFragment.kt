@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.geekhub_android_2019.cherkasyguide.R
+import com.geekhub_android_2019.cherkasyguide.ui.routemap.RouteViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import kotlinx.android.synthetic.main.fragment_map.*
@@ -13,8 +14,7 @@ import kotlinx.android.synthetic.main.fragment_map.*
 class PlaceMapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
     private val args: PlaceMapFragmentArgs by navArgs()
-    private val placeViewModel: PlaceViewModel by activityViewModels()
-    private lateinit var mMap: GoogleMap
+    private val  placeViewModel: PlaceViewModel by activityViewModels()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -31,10 +31,7 @@ class PlaceMapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-
-        mMap.uiSettings.isMapToolbarEnabled = false
-        placeViewModel.createMap(mMap, activity!!.applicationContext)
+        placeViewModel.createMap(googleMap, activity!!.applicationContext)
     }
 
     override fun onResume() {

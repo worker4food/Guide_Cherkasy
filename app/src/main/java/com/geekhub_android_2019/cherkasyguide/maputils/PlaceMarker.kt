@@ -19,5 +19,4 @@ class PlaceMarker(lat: Double, lng: Double, title: String) : ClusterItem {
     override fun getSnippet(): String {
         return mSnippet
     }
-
 }
