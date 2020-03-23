@@ -15,22 +15,22 @@ class PlaceDetailPagerAdapter(private val photos: List<String>) : PagerAdapter()
         return photos.size
     }
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+    override fun isViewFromObject(view: View , `object`: Any): Boolean {
         return view === `object`
     }
 
-    override fun instantiateItem(collection: ViewGroup, position: Int): Any {
+    override fun instantiateItem(collection: ViewGroup , position: Int): Any {
         val photo = photos.get(position)
         val inflater = LayoutInflater.from(collection.context)
         val layout =
-            inflater.inflate(R.layout.image_viewpager_item, collection, false) as ViewGroup
+            inflater.inflate(R.layout.image_viewpager_item , collection , false) as ViewGroup
         collection.addView(layout)
         val imageView = layout.findViewById<ImageView>(R.id.imageView_photoLarge)
-        Glide.with(imageView).load(photo).into(imageView)
+        Glide.with(imageView).load(photo).placeholder(R.drawable.image_cherkasy).into(imageView)
         return layout
     }
 
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+    override fun destroyItem(container: ViewGroup , position: Int , `object`: Any) {
         container.removeView(`object` as View?)
     }
 }

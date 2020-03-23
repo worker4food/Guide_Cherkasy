@@ -8,8 +8,6 @@ import com.geekhub_android_2019.cherkasyguide.models.Places
 
 class PlaceDetailViewModel : ViewModel() {
 
-    lateinit var place: Place
-
     fun replaceDetailFragment(
         view: View,
         place: Place

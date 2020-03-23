@@ -22,12 +22,25 @@
                 android:id="@+id/placeDetail_imageHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="4dp">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp" />
+                    android:layout_height="280dp" />
+
+                <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                    android:id="@+id/worm_dots_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:dotsColor="@color/colorPrimaryDark"
+                    app:dotsCornerRadius="5dp"
+                    app:dotsSize="12dp"
+                    app:dotsSpacing="3dp"
+                    app:dotsStrokeColor="@color/colorAccent"
+                    app:dotsStrokeWidth="2dp" />
 
                 <LinearLayout
                     android:id="@+id/placeDetail_textHolder"
@@ -36,13 +49,25 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/textView_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
+                        android:textColor="@android:color/black"
+                        android:textSize="17sp"
+                        android:textStyle="italic" />
+
+                    <com.codesgood.views.JustifiedTextView
                         android:id="@+id/textView_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:textAppearance="?android:attr/textAppearance"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
             </LinearLayout>
