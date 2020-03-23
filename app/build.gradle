@@ -85,5 +85,5 @@ dependencies {
     //viewpager
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
-    implementation 'me.biubiubiu.justifytext:library:1.1'
+    implementation 'com.codesgood:justifiedtextview:1.1.0'
 }

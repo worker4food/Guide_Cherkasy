@@ -36,9 +36,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     app:dotsColor="@color/colorPrimaryDark"
-                    app:dotsCornerRadius="8dp"
-                    app:dotsSize="16dp"
-                    app:dotsSpacing="4dp"
+                    app:dotsCornerRadius="5dp"
+                    app:dotsSize="12dp"
+                    app:dotsSpacing="3dp"
                     app:dotsStrokeColor="@color/colorAccent"
                     app:dotsStrokeWidth="2dp" />
 
@@ -54,19 +54,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:justificationMode="inter_word"
-                        android:textAppearance="?android:attr/textAppearancePopupMenuHeader"
+                        android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
                         android:textColor="@android:color/black"
                         android:textSize="17sp"
-                        tools:ignore="NewApi" />
+                        android:textStyle="italic" />
 
-                    <me.biubiubiu.justifytext.library.JustifyTextView
+                    <com.codesgood.views.JustifiedTextView
                         android:id="@+id/textView_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:textAppearance="?android:attr/textAppearance"
                         android:textColor="@android:color/black"
                         android:textSize="14sp" />
 
