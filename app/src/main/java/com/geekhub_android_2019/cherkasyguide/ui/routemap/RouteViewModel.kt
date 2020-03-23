@@ -54,17 +54,17 @@ class RouteViewModel : ViewModel() {
 //            while (i < placesForRoute.size - 1) {
             while (i < 3) {
                 waypointsBuilder
-//                    .append("via:")
+                    .append("via:")
                     .append(placesForRoute[i].location?.latitude)
-                    .append("%2C")
+                    .append(",")
                     .append(placesForRoute[i].location?.longitude)
-                    .append("%7C")
+                    .append("|")
                 i++
             }
             waypointsBuilder
-//                .append("via:")
+                .append("via:")
                 .append(placesForRoute[6].location?.latitude)
-                .append("%2C")
+                .append(",")
                 .append(placesForRoute[6].location?.longitude)
         }
         Log.d("buildWaypoints", waypointsBuilder.toString())

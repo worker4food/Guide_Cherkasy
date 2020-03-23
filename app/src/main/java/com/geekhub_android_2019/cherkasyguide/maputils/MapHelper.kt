@@ -115,7 +115,7 @@ object MapHelper {
         Log.d("shape", shape.toString())
         val polyline = PolylineOptions()
             .addAll(PolyUtil.decode(shape))
-            .width(8f)
+            .width(16f)
             .color(Color.BLUE)
         googleMap.addPolyline(polyline)
     }
