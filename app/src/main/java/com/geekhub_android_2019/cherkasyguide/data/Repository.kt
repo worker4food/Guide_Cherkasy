@@ -1,5 +1,6 @@
 package com.geekhub_android_2019.cherkasyguide.data
 
+import com.geekhub_android_2019.cherkasyguide.common.Collection
 import com.geekhub_android_2019.cherkasyguide.models.*
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldPath
@@ -14,12 +15,12 @@ class Repository {
     }
 
     fun getPlaceById(id: String): Flow<Place> =
-        rootRef.collection("places").document(id).asFlow()
+        rootRef.collection(Collection.PLACES).document(id).asFlow()
 
-    fun getPlaces(): Flow<List<Place>> = rootRef.collection("places").asFlow()
+    fun getPlaces(): Flow<List<Place>> = rootRef.collection(Collection.PLACES).asFlow()
 
     fun getRoutes(): Flow<List<Route>> =
-        rootRef.collection("routes")
+        rootRef.collection(Collection.ROUTES)
             .asFlow<Internal.Route>()
             .transformLatest { rawRoutes ->
                 // Emit routes without places
@@ -42,7 +43,7 @@ class Repository {
 
     private fun fetchPlaces(places: List<DocumentReference>): Flow<List<Place>> =
         if (places.isNotEmpty())
-            rootRef.collection("places")
+            rootRef.collection(Collection.PLACES)
                 .whereIn(FieldPath.documentId(), places.map { it.id })
                 .asFlow()
         else
