@@ -2,15 +2,19 @@ package com.geekhub_android_2019.cherkasyguide.ui.routemap
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.geekhub_android_2019.cherkasyguide.R
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import kotlinx.android.synthetic.main.fragment_map.*
+import kotlinx.android.synthetic.main.fragment_map.map_view
+import kotlinx.android.synthetic.main.fragment_map_route.*
 
-class RouteMapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
+class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallback,
+    View.OnClickListener {
     private val args: RouteMapFragmentArgs by navArgs()
     private val routeViewModel: RouteViewModel by activityViewModels()
 
@@ -21,6 +25,10 @@ class RouteMapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
         map_view.onResume()
 
         map_view.getMapAsync(this)
+
+        radio_button_walking.setOnClickListener(this)
+        radio_button_bus.setOnClickListener(this)
+        radio_button_car.setOnClickListener(this)
     }
 
     override fun onAttach(context: Context) {
@@ -31,6 +39,9 @@ class RouteMapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         routeViewModel.createMap(googleMap)
         routeViewModel.drawRoute()
+//        routeViewModel.typeOfRoute.observe(this, Observer {
+//            routeViewModel.drawRoute(it)
+//        })
     }
 
     override fun onResume() {
@@ -46,5 +57,9 @@ class RouteMapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
     override fun onLowMemory() {
         super.onLowMemory()
         map_view.onLowMemory()
+    }
+
+    override fun onClick(view: View) {
+        routeViewModel.selectTypeOfRoute(view)
     }
 }

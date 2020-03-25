@@ -1,19 +1,20 @@
 package com.geekhub_android_2019.cherkasyguide.maputils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.util.Log
+import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.geekhub_android_2019.cherkasyguide.models.routeapiresponse.DirectionResponse
 import com.geekhub_android_2019.cherkasyguide.models.routeapiresponse.RoutesItem
 import com.geekhub_android_2019.cherkasyguide.routeapi.DirectionsApiFactory
+import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import com.google.maps.android.PolyUtil
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.algo.GridBasedAlgorithm
@@ -23,7 +24,20 @@ import retrofit2.Response
 
 object MapHelper {
 
+    private lateinit var context: Context
+
+    fun init(context: Context) {
+        this.context = context
+    }
+
     private lateinit var builder: LatLngBounds.Builder
+
+    private val b by lazy {
+        BitmapFactory.decodeResource(
+            context.resources,
+            R.drawable.pin_blue
+        )
+    }
 
     private fun getPosition(place: Place): LatLng {
         val lat = place.location?.latitude ?: 49.444566
@@ -34,10 +48,20 @@ object MapHelper {
     fun clearMap(googleMap: GoogleMap) = googleMap.clear()
 
     fun setUpCamera(markerList: ArrayList<PlaceMarker>, googleMap: GoogleMap) {
-        val cu = CameraUpdateFactory.newLatLngBounds(
-            setUpBounds(markerList), 50
-        )
-        googleMap.moveCamera(cu)
+        googleMap.moveCamera(updateCamera(markerList))
+    }
+
+    private fun updateCamera(markerList: ArrayList<PlaceMarker>): CameraUpdate {
+        return if (markerList.toList().size == 1) {
+            CameraUpdateFactory.newLatLngZoom(
+                markerList[0].position,
+                15.0f
+            )
+        } else {
+            CameraUpdateFactory.newLatLngBounds(
+                setUpBounds(markerList), 50
+            )
+        }
     }
 
     fun setUpClusterOfMarkers(
@@ -80,19 +104,21 @@ object MapHelper {
                 MarkerOptions()
                     .position(marker.position)
                     .title(marker.title)
+                    .icon(BitmapDescriptorFactory.fromBitmap(resizeIcon()))
             )
         }
     }
+
+    fun resizeIcon(): Bitmap = Bitmap.createScaledBitmap(b, 100, 100, false)
 
     fun drawRoute(
         googleMap: GoogleMap,
         origin: String,
         destination: String,
-        key: String,
         mode: String,
         waypoints: String
     ) {
-        DirectionsApiFactory.getDirectionsApiService(origin, destination, key, mode, waypoints)
+        DirectionsApiFactory.getDirectionsApiService(origin, destination, mode, waypoints)
             .enqueue(object : Callback<DirectionResponse> {
                 override fun onFailure(call: Call<DirectionResponse>, t: Throwable) {
                     Log.d("error", "ERROR")

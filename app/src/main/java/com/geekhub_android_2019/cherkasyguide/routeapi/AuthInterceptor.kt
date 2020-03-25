@@ -11,7 +11,7 @@ class AuthInterceptor(val context: Context) : Interceptor {
         return chain.proceed(
             chain.request().newBuilder().url(
                 chain.request().url.newBuilder()
-                    .addQueryParameter("appid", context.getString(R.string.google_maps_key))
+                    .addQueryParameter("key", context.getString(R.string.google_maps_key))
                     .build()
             ).build()
         )

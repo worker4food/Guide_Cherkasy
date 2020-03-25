@@ -19,34 +19,39 @@ object DirectionsApiFactory {
         this.context = context
     }
 
-    private val client = OkHttpClient().newBuilder()
-        .addInterceptor(
-            HttpLoggingInterceptor()
-                .setLevel(HttpLoggingInterceptor.Level.BODY)
-        )
-        .addInterceptor(AuthInterceptor(context))
-        .build()
+    private val client by lazy {
+        OkHttpClient().newBuilder()
+            .addInterceptor(
+                HttpLoggingInterceptor()
+                    .setLevel(HttpLoggingInterceptor.Level.BODY)
+            )
+            .addInterceptor(AuthInterceptor(context))
+            .build()
+    }
 
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
+    private val moshi by lazy {
+        Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+    }
 
-    private val retrofit = Retrofit.Builder()
-        .client(client)
-        .baseUrl(BuildConfig.BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .build()
+    private val retrofit by lazy {
+        Retrofit.Builder()
+            .client(client)
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+    }
 
-    private val directionsApiService = retrofit.create(DirectionsApiService::class.java)
+    private val directionsApiService by lazy { retrofit.create(DirectionsApiService::class.java) }
 
     fun getDirectionsApiService(
         origin: String,
         destination: String,
-        key: String,
         mode: String,
         waypoints: String
     ): Call<DirectionResponse> {
-        return directionsApiService.getDirection(origin, destination, key, mode, waypoints)
+        return directionsApiService.getDirection(origin, destination, mode, waypoints)
     }
 
 }

@@ -22,10 +22,6 @@ class ClusterMarkerRenderer(
     ClusterManager.OnClusterClickListener<PlaceMarker> {
 
     private val googleMap: GoogleMap = map
-    private val b = BitmapFactory.decodeResource(
-        context.resources,
-        R.drawable.pin_blue
-    )
 
     init {
         clusterManager.setOnClusterClickListener(this)
@@ -35,7 +31,7 @@ class ClusterMarkerRenderer(
 
     override fun onBeforeClusterItemRendered(item: PlaceMarker, markerOptions: MarkerOptions) {
         super.onBeforeClusterItemRendered(item, markerOptions)
-        val icon = Bitmap.createScaledBitmap(b, 100, 100, false)
+        val icon = MapHelper.resizeIcon()
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon))
         markerOptions.title(item.title)
     }

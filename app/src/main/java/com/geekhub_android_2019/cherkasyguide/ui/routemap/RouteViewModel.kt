@@ -1,7 +1,12 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routemap
 
 import android.util.Log
+import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.findNavController
+import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.maputils.MapHelper
 import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.google.android.gms.maps.GoogleMap
@@ -9,6 +14,9 @@ import com.google.android.gms.maps.GoogleMap
 class RouteViewModel : ViewModel() {
 
     private lateinit var placesForRoute: Places
+
+    private val _typeOfRoute = MutableLiveData<String>("driving")
+    val typeOfRoute: LiveData<String> = _typeOfRoute
 
     private lateinit var mMap: GoogleMap
 
@@ -27,7 +35,7 @@ class RouteViewModel : ViewModel() {
 
     fun drawRoute() {
         val origin =
-            placesForRoute[0].location?.latitude.toString() + "," + placesForRoute[0].location?.longitude.toString()
+            placesForRoute[0].location?.latitude.toString()+ "," + placesForRoute[0].location?.longitude.toString()
         Log.d("origin", origin)
         val destination =
             placesForRoute[placesForRoute.size - 1].location?.latitude.toString() + "," + placesForRoute[placesForRoute.size - 1].location?.longitude.toString()
@@ -35,12 +43,10 @@ class RouteViewModel : ViewModel() {
         val waypoints = buildWaypoints()
         Log.d("waypoints", waypoints)
         val mode = "driving"
-        val key = "AIzaSyBpQLmolPgF0ObBK2SJPfSbnFS9ZcvoPbI"
         MapHelper.drawRoute(
             mMap,
             origin,
             destination,
-            key,
             mode,
             waypoints
         )
@@ -51,8 +57,7 @@ class RouteViewModel : ViewModel() {
         if (placesForRoute.size > 2) {
             waypointsBuilder.append("optimize:true|")
             var i = 1
-//            while (i < placesForRoute.size - 1) {
-            while (i < 3) {
+            while (i < placesForRoute.size - 1) {
                 waypointsBuilder
                     .append("via:")
                     .append(placesForRoute[i].location?.latitude)
@@ -70,4 +75,11 @@ class RouteViewModel : ViewModel() {
         Log.d("buildWaypoints", waypointsBuilder.toString())
         return waypointsBuilder.toString()
     }
-}
+
+    fun selectTypeOfRoute (view: View) {
+        when (view.id) {
+            R.id.radio_button_car -> _typeOfRoute.value = "driving"
+            R.id.radio_button_walking -> _typeOfRoute.value = "walking"
+            R.id.radio_button_bus -> _typeOfRoute.value = "transit"
+        }
+    }}
