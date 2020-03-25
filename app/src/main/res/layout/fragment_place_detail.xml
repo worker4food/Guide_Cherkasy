@@ -53,11 +53,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="15dp"
                         android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/background_dark"
                         android:textSize="17sp"
-                        android:textStyle="italic" />
+                        android:textStyle="italic|bold" />
 
                     <com.codesgood.views.JustifiedTextView
                         android:id="@+id/textView_description"

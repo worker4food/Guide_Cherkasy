@@ -26,7 +26,7 @@ class PlaceDetailPagerAdapter(private val photos: List<String>) : PagerAdapter()
             inflater.inflate(R.layout.image_viewpager_item , collection , false) as ViewGroup
         collection.addView(layout)
         val imageView = layout.findViewById<ImageView>(R.id.imageView_photoLarge)
-        Glide.with(imageView).load(photo).placeholder(R.drawable.image_cherkasy).into(imageView)
+        Glide.with(imageView).load(photo).placeholder(R.drawable.download).into(imageView)
         return layout
     }
 

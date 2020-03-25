@@ -8,6 +8,6 @@
         android:id="@+id/imageView_photoLarge"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:src="@drawable/image_cherkasy"
+        android:src="@drawable/download"
         android:scaleType="centerCrop" />
 </LinearLayout>
