@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.findNavController
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.maputils.MapHelper
 import com.geekhub_android_2019.cherkasyguide.models.Places
@@ -35,7 +34,7 @@ class RouteViewModel : ViewModel() {
 
     fun drawRoute() {
         val origin =
-            placesForRoute[0].location?.latitude.toString()+ "," + placesForRoute[0].location?.longitude.toString()
+            placesForRoute[0].location?.latitude.toString() + "," + placesForRoute[0].location?.longitude.toString()
         Log.d("origin", origin)
         val destination =
             placesForRoute[placesForRoute.size - 1].location?.latitude.toString() + "," + placesForRoute[placesForRoute.size - 1].location?.longitude.toString()
@@ -66,20 +65,16 @@ class RouteViewModel : ViewModel() {
                     .append("|")
                 i++
             }
-            waypointsBuilder
-                .append("via:")
-                .append(placesForRoute[6].location?.latitude)
-                .append(",")
-                .append(placesForRoute[6].location?.longitude)
         }
         Log.d("buildWaypoints", waypointsBuilder.toString())
         return waypointsBuilder.toString()
     }
 
-    fun selectTypeOfRoute (view: View) {
+    fun selectTypeOfRoute(view: View) {
         when (view.id) {
             R.id.radio_button_car -> _typeOfRoute.value = "driving"
             R.id.radio_button_walking -> _typeOfRoute.value = "walking"
             R.id.radio_button_bus -> _typeOfRoute.value = "transit"
         }
-    }}
+    }
+}
