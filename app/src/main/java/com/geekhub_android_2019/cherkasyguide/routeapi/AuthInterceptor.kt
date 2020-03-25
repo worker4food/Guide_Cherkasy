@@ -5,15 +5,13 @@ import com.geekhub_android_2019.cherkasyguide.R
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class AuthInterceptor(context: Context) : Interceptor {
-
-    val API_KEY = context.getString(R.string.google_maps_key)
+class AuthInterceptor(val context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         return chain.proceed(
             chain.request().newBuilder().url(
                 chain.request().url.newBuilder()
-                    .addQueryParameter("appid", API_KEY)
+                    .addQueryParameter("appid", context.getString(R.string.google_maps_key))
                     .build()
             ).build()
         )

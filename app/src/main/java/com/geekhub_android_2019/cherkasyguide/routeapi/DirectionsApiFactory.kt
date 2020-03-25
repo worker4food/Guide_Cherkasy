@@ -24,7 +24,7 @@ object DirectionsApiFactory {
             HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY)
         )
-//        .addInterceptor(AuthInterceptor())
+        .addInterceptor(AuthInterceptor(context))
         .build()
 
     private val moshi = Moshi.Builder()
