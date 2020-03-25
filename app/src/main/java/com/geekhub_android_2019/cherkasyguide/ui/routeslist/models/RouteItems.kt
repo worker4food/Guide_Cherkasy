@@ -1,4 +1,4 @@
-package com.geekhub_android_2019.cherkasyguide.ui.routelist.models
+package com.geekhub_android_2019.cherkasyguide.ui.routeslist.models
 
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.models.Route

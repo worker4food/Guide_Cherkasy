@@ -1,5 +1,6 @@
 package com.geekhub_android_2019.cherkasyguide
 
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -28,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<NavigationView>(R.id.navigation_view)
             .setupWithNavController(navController)
         findViewById<Toolbar>(R.id.toolbar)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

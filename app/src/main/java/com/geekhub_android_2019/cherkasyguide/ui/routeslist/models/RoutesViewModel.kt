@@ -1,14 +1,13 @@
-package com.geekhub_android_2019.cherkasyguide.ui.routelist.models
+package com.geekhub_android_2019.cherkasyguide.ui.routeslist.models
 
 import androidx.lifecycle.*
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import com.geekhub_android_2019.cherkasyguide.data.*
 import com.geekhub_android_2019.cherkasyguide.models.Route
 import kotlinx.coroutines.flow.combine
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.models.Places
-import com.geekhub_android_2019.cherkasyguide.ui.routelist.RouteListFragmentDirections
+import com.geekhub_android_2019.cherkasyguide.ui.routeslist.RouteListFragmentDirections
 
 class RoutesViewModel : ViewModel() {
 

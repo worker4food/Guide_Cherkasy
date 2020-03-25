@@ -1,11 +1,11 @@
-package com.geekhub_android_2019.cherkasyguide.ui.routelist
+package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.geekhub_android_2019.cherkasyguide.ui.routelist.models.RouteItem
+import com.geekhub_android_2019.cherkasyguide.ui.routeslist.models.RouteItem
 
 class RouteListAdapter(private val listener: (RouteItem) -> Unit) :
     ListAdapter<RouteItem, RouteItemHolder>(RoutesDiffCallback) {

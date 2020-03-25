@@ -1,12 +1,16 @@
 <resources>
     <string name="app_name">Cherkasy Guide</string>
-    <string name="home">Home</string>
-    <string name="what_to_see">What to see</string>
-    <string name="routes">Routes</string>
-    <string name="map">Map</string>
+    <string name="home">Главная</string>
+    <string name="what_to_see">Что посмотреть</string>
+    <string name="routes">Маршруты</string>
+    <string name="map">Карта</string>
     <string name="regular_routes">Regular routes</string>
     <string name="user_route">Custom route</string>
 
     <string name="dummy">Dummy</string>
     <string name="create_new_route">Create new</string>
+    <string name="logo">logo</string>
+    <string name="button_car">Машиной</string>
+    <string name="button_walking">Пешком</string>
+    <string name="button_bus">Автобусом</string>
 </resources>

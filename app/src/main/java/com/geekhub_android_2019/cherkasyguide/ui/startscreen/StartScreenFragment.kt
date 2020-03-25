@@ -1,4 +1,4 @@
-package com.geekhub_android_2019.cherkasyguide.ui.startScreen
+package com.geekhub_android_2019.cherkasyguide.ui.startscreen
 
 import android.os.Bundle
 import android.view.View

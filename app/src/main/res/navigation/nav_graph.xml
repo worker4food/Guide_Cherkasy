@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startScreenFragment"
-        android:name="com.geekhub_android_2019.cherkasyguide.ui.startScreen.StartScreenFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.startscreen.StartScreenFragment"
         android:label="Cherkasy"
         tools:layout="@layout/fragment_start_screen">
         <action
@@ -76,7 +76,7 @@
     <fragment
         android:id="@+id/routeMapFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.routemap.RouteMapFragment"
-        android:label="Route MapF ragment">
+        android:label="Map of route">
         <argument
             android:name="places"
             app:argType="com.geekhub_android_2019.cherkasyguide.models.Places" />
@@ -88,7 +88,7 @@
         android:label="Create Route Fragment" />
     <fragment
         android:id="@+id/routesFragment"
-        android:name="com.geekhub_android_2019.cherkasyguide.ui.routelist.RouteListFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.routeslist.RouteListFragment"
         android:label="Routes"
         tools:layout="@layout/fragment_routes_list">
         <action
