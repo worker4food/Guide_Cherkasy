@@ -6,6 +6,6 @@ import java.io.Serializable
 data class Route(
     @DocumentId
     val id: String? = null,
-    val name: String? = null
+    val name: String? = null,
+    val places: List<Place> = listOf()
 ): Serializable
-

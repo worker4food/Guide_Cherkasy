@@ -13,7 +13,7 @@
             android:icon="@drawable/ic_list"
             android:title="@string/what_to_see" />
         <item
-            android:id="@+id/routeFragment"
+            android:id="@+id/routesFragment"
             android:icon="@drawable/ic_map"
             android:title="@string/routes"/>
     </group>

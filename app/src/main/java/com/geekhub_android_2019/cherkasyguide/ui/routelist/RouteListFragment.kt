@@ -32,8 +32,8 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
     }
 
     private fun onRouteSelected(item: RouteItem): Unit = when(item) {
-        is RouteItem.Regular -> vm.viewRoute(controller, item.route)
-        is RouteItem.User -> vm.viewRoute(controller, item.route)
+        is RouteItem.Regular -> vm.viewRouteMap(controller, item.route)
+        is RouteItem.User -> vm.viewRouteMap(controller, item.route)
         is RouteItem.CreateNew -> vm.createNewRoute(controller)
         is RouteItem.Separator -> Unit // Do nothing
     }

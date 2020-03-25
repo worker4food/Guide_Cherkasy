@@ -7,6 +7,7 @@ import com.geekhub_android_2019.cherkasyguide.data.*
 import com.geekhub_android_2019.cherkasyguide.models.Route
 import kotlinx.coroutines.flow.combine
 import com.geekhub_android_2019.cherkasyguide.R
+import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.geekhub_android_2019.cherkasyguide.ui.routelist.RouteListFragmentDirections
 
 class RoutesViewModel : ViewModel() {
@@ -34,6 +35,13 @@ class RoutesViewModel : ViewModel() {
 
     fun viewRoute(navController: NavController, route: Route) {
         RouteListFragmentDirections.actionRoutesFragmentToRouteFragment(route, route.name).also {
+            navController.navigate(it)
+        }
+    }
+
+    fun viewRouteMap(navController: NavController, route: Route) {
+        val places = Places().apply { addAll(route.places) }
+        RouteListFragmentDirections.actionToRouteMap(places).also {
             navController.navigate(it)
         }
     }
