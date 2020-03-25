@@ -29,7 +29,7 @@
             app:launchSingleTop="false" />
         <action
             android:id="@+id/action_placesListFragment_to_placeMapFragment"
-            app:destination="@id/routeMapFragment" />
+            app:destination="@id/placeMapFragment" />
     </fragment>
 
     <fragment
