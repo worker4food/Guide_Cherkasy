@@ -4,11 +4,11 @@
     <string name="what_to_see">Что посмотреть</string>
     <string name="routes">Маршруты</string>
     <string name="map">Карта</string>
-    <string name="regular_routes">Regular routes</string>
-    <string name="user_route">Custom route</string>
+    <string name="regular_routes">Регулярные маршруты</string>
+    <string name="user_route">Пользовательский маршрут</string>
 
     <string name="dummy">Dummy</string>
-    <string name="create_new_route">Create new</string>
+    <string name="create_new_route">Создать новый маршрут</string>
     <string name="logo">logo</string>
     <string name="button_car">Машиной</string>
     <string name="button_walking">Пешком</string>

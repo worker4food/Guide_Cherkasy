@@ -35,11 +35,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:dotsColor="@color/colorPrimaryDark"
                     app:dotsCornerRadius="5dp"
                     app:dotsSize="12dp"
                     app:dotsSpacing="3dp"
-                    app:dotsStrokeColor="@color/colorAccent"
                     app:dotsStrokeWidth="2dp" />
 
                 <LinearLayout
@@ -80,7 +78,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimaryDark"
         app:itemIconTint="@android:color/black"
         app:itemTextColor="@android:color/black"
         app:menu="@menu/bottom_nav_menu" />
