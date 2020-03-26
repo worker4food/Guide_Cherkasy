@@ -13,4 +13,6 @@
     <string name="button_car">Машиной</string>
     <string name="button_walking">Пешком</string>
     <string name="button_bus">Автобусом</string>
+    <string name="error_no_network">Нет интернета</string>
+    <string name="action_try_again">Еще разок</string>
 </resources>
