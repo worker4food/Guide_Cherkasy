@@ -23,7 +23,7 @@ class RoutesViewModel : ViewModel() {
             )
         }.asLiveData()
 
-    fun createNewRoute(navController: NavController) {
+    fun createEditRoute(navController: NavController) {
         RouteListFragmentDirections.actionToRouteEditFragment().also {
             navController.navigate(it)
         }

@@ -63,13 +63,18 @@ abstract class PlaceCardModel: EpoxyModelWithHolder<PlaceCardModel.VH>() {
 }
 
 @EpoxyModelClass(layout = R.layout.fragment_routes_create_new)
-abstract class CreateRouteModel: EpoxyModelWithHolder<CreateRouteModel.VH>() {
+abstract class CreateEditRouteModel: EpoxyModelWithHolder<CreateEditRouteModel.VH>() {
+
+    @EpoxyAttribute
+    var titleId: Int? = null
 
     @EpoxyAttribute(Option.DoNotHash)
     lateinit var listener: View.OnClickListener
 
-    override fun bind(holder: VH) =
+    override fun bind(holder: VH) {
+        holder.button.setText(titleId!!)
         holder.button.setOnClickListener(listener)
+    }
 
     class VH: BaseEpoxyHolder() {
         val button by bind<MaterialButton>(R.id.createRoute)

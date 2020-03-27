@@ -1,7 +1,6 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -48,15 +47,17 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
                 }
             }
 
-            if (state.userRoute != null && state.userRoute.places.isNotEmpty()) {
+            val userRouteExists = state.userRoute?.places?.isNotEmpty() ?: false
+
+            if (userRouteExists) {
                 routeHeader {
-                    id("user-route-header", state.userRoute.id)
+                    id("user-route-header", state.userRoute!!.id)
                     name(getString(R.string.user_route))
                     listener { _ -> vm.viewRouteMap(controller, state.userRoute.places) }
                 }
 
                 carousel {
-                    id("place-thumbs-user", state.userRoute.id)
+                    id("place-thumbs-user", state.userRoute!!.id)
 
                     state.userRoute.places.map { place ->
                         PlaceCardModel_()
@@ -66,11 +67,16 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
                             .listener { _ -> vm.viewPlace(controller, place) }
                     }.also { models(it) }
                 }
-            } else
-                createRoute {
-                    id("create-new-route")
-                    listener { _ -> vm.createNewRoute(controller) }
-                }
+            }
+
+            val buttonTextId =
+                if (userRouteExists) R.string.edit_user_route else R.string.create_new_route
+
+            createEditRoute {
+                id("create-edit-user-route")
+                titleId(buttonTextId)
+                listener { _ -> vm.createEditRoute(controller) }
+            }
         }
 
     }
