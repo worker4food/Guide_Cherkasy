@@ -86,6 +86,7 @@
         android:id="@+id/createRouteFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.createroute.CreateRouteFragment"
         android:label="Создать маршрут" />
+
     <fragment
         android:id="@+id/routesFragment"
         android:name="com.geekhub_android_2019.cherkasyguide.ui.routeslist.RouteListFragment"
@@ -100,6 +101,9 @@
         <action
             android:id="@+id/action_toRouteMap"
             app:destination="@id/routeMapFragment" />
+        <action
+            android:id="@+id/action_toPlaceDetail"
+            app:destination="@id/placeDetailFragment"/>
     </fragment>
 
 </navigation>

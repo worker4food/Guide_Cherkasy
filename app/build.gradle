@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
+apply plugin: 'kotlin-kapt'
+
 // Google Services plugin
 apply plugin: 'com.google.gms.google-services'
 
@@ -110,4 +112,8 @@ dependencies {
     //Chucker
     debugImplementation "com.github.ChuckerTeam.Chucker:library:3.0.1"
     releaseImplementation "com.github.ChuckerTeam.Chucker:library-no-op:3.0.1"
+
+    //EPOXY
+    implementation 'com.airbnb.android:epoxy:3.9.0'
+    kapt 'com.airbnb.android:epoxy-processor:3.9.0'
 }

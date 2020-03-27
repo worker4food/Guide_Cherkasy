@@ -1,29 +1,25 @@
-package com.geekhub_android_2019.cherkasyguide.ui.routeslist.models
+package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
-import com.geekhub_android_2019.cherkasyguide.data.*
+import com.geekhub_android_2019.cherkasyguide.data.Repository
+import com.geekhub_android_2019.cherkasyguide.models.Place
+import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.geekhub_android_2019.cherkasyguide.models.Route
 import kotlinx.coroutines.flow.combine
-import com.geekhub_android_2019.cherkasyguide.R
-import com.geekhub_android_2019.cherkasyguide.models.Places
-import com.geekhub_android_2019.cherkasyguide.ui.routeslist.RouteListFragmentDirections
 
 class RoutesViewModel : ViewModel() {
 
     private val repo = Repository()
 
-    val routes: LiveData<List<RouteItem>> =
-        repo.getRoutes().combine(repo.getUserRouteOrNUll()) { routes, userRoute ->
-            val regularRoutes = listOf(RouteItem.Separator(R.string.regular_routes)) +
-                    routes.map(RouteItem::Regular)
-
-            val userRoutes = listOf(
-                RouteItem.Separator(R.string.user_route),
-                userRoute?.let(RouteItem::User) ?: RouteItem.CreateNew
+    val routes: LiveData<ViewState> =
+        combine(repo.getRoutes(), repo.getUserRouteOrNUll()) { routes, userRoute ->
+            ViewState(
+                routes,
+                userRoute
             )
-
-            regularRoutes + userRoutes
         }.asLiveData()
 
     fun createNewRoute(navController: NavController) {
@@ -44,4 +40,11 @@ class RoutesViewModel : ViewModel() {
             navController.navigate(it)
         }
     }
+
+    fun viewPlace(navController: NavController, place: Place) {
+        RouteListFragmentDirections.actionToPlaceDetail(place, place.name).also {
+            navController.navigate(it)
+        }
+    }
 }
+

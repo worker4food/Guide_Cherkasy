@@ -4,8 +4,7 @@
     <string name="what_to_see">Что посмотреть</string>
     <string name="routes">Маршруты</string>
     <string name="map">Карта</string>
-    <string name="regular_routes">Регулярные маршруты</string>
-    <string name="user_route">Пользовательский маршрут</string>
+    <string name="user_route">Свой маршрут</string>
 
     <string name="dummy">Dummy</string>
     <string name="create_new_route">Создать новый маршрут</string>
@@ -15,4 +14,5 @@
     <string name="button_bus">Автобусом</string>
     <string name="error_no_network">Нет интернета</string>
     <string name="action_try_again">Еще разок</string>
+    <string name="show_route_map_button">Карта</string>
 </resources>
