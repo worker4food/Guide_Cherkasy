@@ -27,9 +27,6 @@ abstract class RouteHeaderModel: EpoxyModelWithHolder<RouteHeaderModel.VH>() {
         holder.showMapBtn.setOnClickListener(listener)
     }
 
-    override fun unbind(holder: VH) {
-
-    }
     class VH: BaseEpoxyHolder() {
         val groupName by bind<MaterialTextView>(R.id.groupName)
         val showMapBtn by bind<MaterialButton>(R.id.showRouteMap)
@@ -59,10 +56,6 @@ abstract class PlaceCardModel: EpoxyModelWithHolder<PlaceCardModel.VH>() {
         holder.view.setOnClickListener(listener)
     }
 
-    override fun unbind(holder: VH) {
-        holder.view.setOnClickListener(null)
-    }
-
     class VH: BaseEpoxyHolder() {
         val placeTitle by bind<MaterialTextView>(R.id.placeTitle)
         val placeThumb by bind<ImageView>(R.id.placeThumb)
@@ -77,9 +70,6 @@ abstract class CreateRouteModel: EpoxyModelWithHolder<CreateRouteModel.VH>() {
 
     override fun bind(holder: VH) =
         holder.button.setOnClickListener(listener)
-
-    override fun unbind(holder: VH) =
-        holder.button.setOnClickListener(null)
 
     class VH: BaseEpoxyHolder() {
         val button by bind<MaterialButton>(R.id.createRoute)
