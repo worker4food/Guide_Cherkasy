@@ -1,6 +1,7 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -31,7 +32,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
                 routeHeader {
                     id("route-header", route.id)
                     name(route.name!!)
-                    listener { _ -> vm.viewRouteMap(controller, route) }
+                    listener { _ -> vm.viewRouteMap(controller, route.places) }
                 }
 
                 carousel {
@@ -47,13 +48,25 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
                 }
             }
 
-            if (state.userRoute != null)
+            if (state.userRoute != null && state.userRoute.places.isNotEmpty()) {
                 routeHeader {
                     id("user-route-header", state.userRoute.id)
                     name(getString(R.string.user_route))
-                    listener { _ -> vm.viewRouteMap(controller, state.userRoute)}
+                    listener { _ -> vm.viewRouteMap(controller, state.userRoute.places) }
                 }
-            else
+
+                carousel {
+                    id("place-thumbs-user", state.userRoute.id)
+
+                    state.userRoute.places.map { place ->
+                        PlaceCardModel_()
+                            .id("user-place-thumb", state.userRoute.id, place.id)
+                            .title(place.name!!)
+                            .imageUrl(place.photoSmallUrl!!)
+                            .listener { _ -> vm.viewPlace(controller, place) }
+                    }.also { models(it) }
+                }
+            } else
                 createRoute {
                     id("create-new-route")
                     listener { _ -> vm.createNewRoute(controller) }

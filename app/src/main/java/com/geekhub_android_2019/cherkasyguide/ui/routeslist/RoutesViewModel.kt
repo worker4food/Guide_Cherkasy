@@ -8,6 +8,7 @@ import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.geekhub_android_2019.cherkasyguide.models.Route
+import com.geekhub_android_2019.cherkasyguide.models.UserRoute
 import kotlinx.coroutines.flow.combine
 
 class RoutesViewModel : ViewModel() {
@@ -28,9 +29,9 @@ class RoutesViewModel : ViewModel() {
         }
     }
 
-    fun viewRouteMap(navController: NavController, route: Route) {
-        val places = Places().apply { addAll(route.places) }
-        RouteListFragmentDirections.actionToRouteMap(places).also {
+    fun viewRouteMap(navController: NavController, places: List<Place>) {
+        val arg = Places().apply { addAll(places) }
+        RouteListFragmentDirections.actionToRouteMap(arg).also {
             navController.navigate(it)
         }
     }
