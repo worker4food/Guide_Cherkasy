@@ -26,16 +26,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="280dp" />
 
-            <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-                android:id="@+id/worm_dots_indicator"
+            <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+                android:id="@+id/spring_dots_indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="visible"
-                app:dotsCornerRadius="5dp"
-                app:dotsSize="12dp"
-                app:dotsSpacing="3dp"
-                app:dotsStrokeWidth="2dp" />
+                app:dotsCornerRadius="4dp"
+                app:dotsSize="10dp"
+                app:dotsSpacing="2dp"
+                app:dotsStrokeWidth="1dp" />
+
 
             <LinearLayout
                 android:id="@+id/placeDetail_textHolder"

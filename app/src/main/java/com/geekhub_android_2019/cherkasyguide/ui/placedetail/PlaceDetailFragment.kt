@@ -12,7 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager.widget.ViewPager
 import com.geekhub_android_2019.cherkasyguide.R
 import com.google.android.material.navigation.NavigationView
-import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
 import kotlinx.android.synthetic.main.fragment_place_detail.view.*
 
 
@@ -48,7 +48,7 @@ class PlaceDetailFragment : Fragment() {
             placeArgs.place.photoLargeUrl?.let { it1 -> PlaceDetailPagerAdapter(photos = it1) }
         view.textView_description?.text = placeArgs.place.description
         view.textView_name?.text = placeArgs.place.name
-        val wormDotsIndicator = view.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
-        wormDotsIndicator.setViewPager(viewPager)
+        val springDotsIndicator = view.findViewById<SpringDotsIndicator>(R.id.spring_dots_indicator)
+        springDotsIndicator.setViewPager(viewPager)
     }
 }
