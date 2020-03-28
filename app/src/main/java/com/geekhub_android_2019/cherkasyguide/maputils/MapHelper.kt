@@ -35,7 +35,7 @@ object MapHelper {
     private val b by lazy {
         BitmapFactory.decodeResource(
             context.resources,
-            R.drawable.pin_blue
+            R.drawable.pin
         )
     }
 
@@ -109,7 +109,7 @@ object MapHelper {
         }
     }
 
-    fun resizeIcon(): Bitmap = Bitmap.createScaledBitmap(b, 100, 100, false)
+    fun resizeIcon(): Bitmap = Bitmap.createScaledBitmap(b, 80, 130, false)
 
     fun drawRoute(
         googleMap: GoogleMap,

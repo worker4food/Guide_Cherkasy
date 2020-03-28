@@ -38,10 +38,10 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
 
     override fun onMapReady(googleMap: GoogleMap) {
         routeViewModel.createMap(googleMap)
-        routeViewModel.drawRoute()
-//        routeViewModel.typeOfRoute.observe(this, Observer {
-//            routeViewModel.drawRoute(it)
-//        })
+//        routeViewModel.drawRoute()
+        routeViewModel.typeOfRoute.observe(this, Observer {
+            routeViewModel.drawRoute(it)
+        })
     }
 
     override fun onResume() {

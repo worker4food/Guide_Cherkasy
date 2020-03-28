@@ -1,9 +1,6 @@
 package com.geekhub_android_2019.cherkasyguide.maputils
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import com.geekhub_android_2019.cherkasyguide.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
