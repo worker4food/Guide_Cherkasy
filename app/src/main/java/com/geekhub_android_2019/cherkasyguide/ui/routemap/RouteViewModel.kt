@@ -32,7 +32,7 @@ class RouteViewModel : ViewModel() {
         MapHelper.setUpCamera(markersList, mMap)
     }
 
-    fun drawRoute() {
+    fun drawRoute(mode: String) {
         val origin =
             placesForRoute[0].location?.latitude.toString() + "," + placesForRoute[0].location?.longitude.toString()
         Log.d("origin", origin)
@@ -41,7 +41,6 @@ class RouteViewModel : ViewModel() {
         Log.d("destination", destination)
         val waypoints = buildWaypoints()
         Log.d("waypoints", waypoints)
-        val mode = "driving"
         MapHelper.drawRoute(
             mMap,
             origin,
