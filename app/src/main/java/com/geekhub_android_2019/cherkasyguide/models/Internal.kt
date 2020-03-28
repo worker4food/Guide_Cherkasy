@@ -10,4 +10,10 @@ internal class Internal {
         val name: String? = null,
         val places: List<DocumentReference> = listOf()
     )
+
+    data class UserRoute(
+        @DocumentId
+        val id: String? = null,
+        val places: List<DocumentReference> = listOf()
+    )
 }
