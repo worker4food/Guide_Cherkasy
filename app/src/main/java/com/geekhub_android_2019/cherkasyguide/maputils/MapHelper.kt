@@ -24,6 +24,7 @@ object MapHelper {
 
     private lateinit var context: Context
     private lateinit var routePolyline: Polyline
+    private lateinit var route: RoutesItem
 
     fun init(context: Context) {
         this.context = context
@@ -31,7 +32,7 @@ object MapHelper {
 
     private lateinit var builder: LatLngBounds.Builder
 
-    private fun getPosition(place: Place): LatLng {
+    fun getPosition(place: Place): LatLng {
         val lat = place.location?.latitude ?: 49.444566
         val lng = place.location?.longitude ?: 32.059962
         return LatLng(lat, lng)
@@ -144,23 +145,38 @@ object MapHelper {
                     response: Response<DirectionResponse>
                 ) {
                     Log.d("code", response.code().toString())
-                    val route = response.body()?.routes?.get(0)
+                    route = response.body()?.routes?.get(0)!!
                     if (::routePolyline.isInitialized) {
                         routePolyline.remove()
                     }
-                    drawPolyline(googleMap, route)
+                    drawPolyline(googleMap)
                 }
             })
     }
 
-    private fun drawPolyline(googleMap: GoogleMap, route: RoutesItem?) {
-        val legs = route?.legs
-        val shape = route?.overviewPolyline?.points
+    private fun drawPolyline(googleMap: GoogleMap) {
+        val shape = route.overviewPolyline?.points
         Log.d("shape", shape.toString())
         val polyline = PolylineOptions()
             .addAll(PolyUtil.decode(shape))
             .width(16f)
             .color(context.resources.getColor(R.color.colorSecondaryDark, context.theme))
         routePolyline = googleMap.addPolyline(polyline)
+    }
+
+    fun drawStepPolyline(googleMap: GoogleMap, count: Int) {
+        val legs = route.legs
+        val steps = legs!![count]?.steps
+        val path = ArrayList<List<LatLng>>()
+        steps?.forEach {
+            val points = it?.polyline?.points
+            path.add(PolyUtil.decode(points))
+        }
+
+        path.forEach {
+            routePolyline = googleMap.addPolyline(PolylineOptions()
+                .addAll(it)
+                .color(Color.BLUE))
+        }
     }
 }

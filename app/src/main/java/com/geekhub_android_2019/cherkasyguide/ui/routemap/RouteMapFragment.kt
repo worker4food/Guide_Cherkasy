@@ -17,6 +17,7 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
     View.OnClickListener {
     private val args: RouteMapFragmentArgs by navArgs()
     private val routeViewModel: RouteViewModel by activityViewModels()
+    var mCount = 0
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -29,7 +30,10 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
         radio_button_walking.setOnClickListener(this)
         radio_button_car.setOnClickListener(this)
         button_step_of_route.setOnClickListener {
-            routeViewModel.buttonStartClick(it)
+            routeViewModel.buttonStartClick(mCount, it)
+            radio_button_car.isEnabled = false
+            radio_button_walking.isEnabled = false
+            mCount++
         }
     }
 

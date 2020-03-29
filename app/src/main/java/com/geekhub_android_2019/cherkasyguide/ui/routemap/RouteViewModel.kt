@@ -58,7 +58,6 @@ class RouteViewModel : ViewModel() {
             var i = 1
             while (i < placesForRoute.size - 1) {
                 waypointsBuilder
-                    .append("via:")
                     .append(placesForRoute[i].location?.latitude)
                     .append(",")
                     .append(placesForRoute[i].location?.longitude)
@@ -81,7 +80,12 @@ class RouteViewModel : ViewModel() {
         }
     }
 
-    fun buttonStartClick(view: View) {
-
+    fun buttonStartClick(count: Int, view: View) {
+        if (count < placesForRoute.size-1) {
+            MapHelper.drawStepPolyline(mMap, count)
+            if (count == placesForRoute.size-2) {
+                view.isEnabled = false
+            }
+        }
     }
 }
