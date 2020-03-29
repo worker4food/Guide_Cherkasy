@@ -39,6 +39,11 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
     override fun onMapReady(googleMap: GoogleMap) {
         routeViewModel.createMap(googleMap)
 //        routeViewModel.drawRoute()
+
+        listOf(radio_button_car, radio_button_walking, radio_button_bus).forEach {
+            it.isChecked = it.id == routeViewModel.lastRadioState
+        }
+
         routeViewModel.typeOfRoute.observe(this, Observer {
             routeViewModel.drawRoute(it)
         })

@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.maputils.MapHelper
@@ -14,8 +15,20 @@ class RouteViewModel : ViewModel() {
 
     private lateinit var placesForRoute: Places
 
+    private var _lastRadioState = R.id.radio_button_car
+    val lastRadioState
+        get() = _lastRadioState
+
     private val _typeOfRoute = MutableLiveData<String>("driving")
-    val typeOfRoute: LiveData<String> = _typeOfRoute
+    val typeOfRoute: LiveData<String> = Transformations.map(_typeOfRoute) {
+        _lastRadioState = when(it) {
+            "walking" -> R.id.radio_button_walking
+            "transit" -> R.id.radio_button_bus
+            else -> R.id.radio_button_car
+        }
+
+        it
+    }
 
     private lateinit var mMap: GoogleMap
 
