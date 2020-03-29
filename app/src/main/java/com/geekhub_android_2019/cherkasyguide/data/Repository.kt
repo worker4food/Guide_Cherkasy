@@ -3,13 +3,12 @@ package com.geekhub_android_2019.cherkasyguide.data
 import com.geekhub_android_2019.cherkasyguide.common.Collection
 import com.geekhub_android_2019.cherkasyguide.models.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
-import kotlin.reflect.jvm.internal.impl.load.java.Constant
+import java.security.InvalidParameterException
 
 class Repository {
 
@@ -30,32 +29,26 @@ class Repository {
                 emit(rawRoutes.map { Route(it.id, it.name) })
 
                 // Construct routes with places
-                val routesFlows: List<Flow<Route>> = rawRoutes.map { rawRoute ->
-                    fetchRoutePlaces(rawRoute)
+                val routeFlows: List<Flow<Route>> = rawRoutes.map { rawRoute ->
+                    fetchPlaces(rawRoute.placeIds)
+                        .map { Route(rawRoute.id, rawRoute.name, it) }
                 }
 
                 // Finally, emit routes with places
-                combine(routesFlows) { newRoutes: Array<Route> ->
-                    newRoutes.toList()
-                }.also {
-                    emitAll(it)
-                }
+                combine(routeFlows) { it.asList() }
+                    .also { emitAll(it) }
             }
 
     fun getUserRouteOrNUll(): Flow<UserRoute?> =
         rootRef.collection(Collection.USER_ROUTES)
             .document(FirebaseAuth.getInstance().uid!!)
             .asNullableFlow<Internal.UserRoute>()
-            .transformLatest { rawRoute ->
-                if (rawRoute == null)
-                    emit(null)
-                else {
-                    fetchPlaces(rawRoute.places).map { places ->
-                        UserRoute(rawRoute.id, places)
-                    }.also { emitAll(it) }
-                }
+            .flatMapLatest { rawRoute ->
+                rawRoute
+                    ?.let { fetchPlaces(rawRoute.placeIds) }
+                    ?.map { UserRoute(rawRoute.id, it) }
+                    ?: flowOf(null)
             }
-
 
     suspend fun updateUserRoute(r: UserRoute) {
         val uid = FirebaseAuth.getInstance().uid!!
@@ -69,14 +62,19 @@ class Repository {
             .await()
     }
 
-    private fun fetchPlaces(places: List<DocumentReference>): Flow<List<Place>> =
-        if (places.isNotEmpty())
+    private fun fetchPlaces(placeIds: List<String>): Flow<List<Place>> =
+        if (placeIds.isNotEmpty())
             rootRef.collection(Collection.PLACES)
-                .whereIn(FieldPath.documentId(), places.map { it.id })
-                .asFlow()
+                .whereIn(FieldPath.documentId(), placeIds)
+                .asFlow<Place>()
+                .map { places ->
+                    val id2place = places.associateBy { it.id }
+
+                    placeIds.map { id ->
+                        id2place[id]
+                            ?: throw InvalidParameterException("Place for id <$id> is null")
+                    }
+                }
         else
             flowOf(listOf())
-
-    private fun fetchRoutePlaces(r: Internal.Route): Flow<Route> =
-        fetchPlaces(r.places).map { Route(r.id, r.name, it) }
 }
