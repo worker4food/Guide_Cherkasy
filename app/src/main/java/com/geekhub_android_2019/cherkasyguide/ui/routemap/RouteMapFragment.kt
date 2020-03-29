@@ -27,8 +27,10 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
         map_view.getMapAsync(this)
 
         radio_button_walking.setOnClickListener(this)
-        radio_button_bus.setOnClickListener(this)
         radio_button_car.setOnClickListener(this)
+        button_step_of_route.setOnClickListener {
+            routeViewModel.buttonStartClick(it)
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -38,7 +40,6 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
 
     override fun onMapReady(googleMap: GoogleMap) {
         routeViewModel.createMap(googleMap)
-//        routeViewModel.drawRoute()
         routeViewModel.typeOfRoute.observe(this, Observer {
             routeViewModel.drawRoute(it)
         })

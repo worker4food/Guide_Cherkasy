@@ -22,4 +22,5 @@
     </plurals>
     <string name="to_short_route">Маршрут должен содержать не менее двух точек</string>
     <string name="action_ok">OK</string>
+    <string name="start">Начать</string>
 </resources>

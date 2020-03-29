@@ -1,6 +1,9 @@
 package com.geekhub_android_2019.cherkasyguide.maputils
 
 import android.content.Context
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import com.geekhub_android_2019.cherkasyguide.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -20,6 +23,13 @@ class ClusterMarkerRenderer(
 
     private val googleMap: GoogleMap = map
 
+    private val b by lazy {
+        BitmapFactory.decodeResource(
+            context.resources,
+            R.drawable.pin
+        )
+    }
+
     init {
         clusterManager.setOnClusterClickListener(this)
         googleMap.setOnCameraIdleListener(clusterManager)
@@ -28,7 +38,7 @@ class ClusterMarkerRenderer(
 
     override fun onBeforeClusterItemRendered(item: PlaceMarker, markerOptions: MarkerOptions) {
         super.onBeforeClusterItemRendered(item, markerOptions)
-        val icon = MapHelper.resizeIcon()
+        val icon = MapHelper.resizeIcon(b)
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon))
         markerOptions.title(item.title)
     }
@@ -39,7 +49,11 @@ class ClusterMarkerRenderer(
             builder.include(marker.position)
         }
         val bounds = builder.build()
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50))
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))
         return true
+    }
+
+    override fun getColor(clusterSize: Int): Int {
+        return Color.parseColor("#ffa000")
     }
 }

@@ -20,6 +20,7 @@ class PlaceViewModel : ViewModel() {
     fun createMap(googleMap: GoogleMap, context: Context) {
         mMap = googleMap
         mMap.uiSettings.isMapToolbarEnabled = false
+        mMap.uiSettings.isZoomControlsEnabled = true
         MapHelper.clearMap(googleMap)
         val markersList = MapHelper.getMarkerList(_places)
         MapHelper.setUpClusterOfMarkers(mMap, markersList, context)

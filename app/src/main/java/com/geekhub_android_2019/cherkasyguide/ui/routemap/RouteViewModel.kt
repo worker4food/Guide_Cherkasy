@@ -26,6 +26,7 @@ class RouteViewModel : ViewModel() {
     fun createMap(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isMapToolbarEnabled = false
+        mMap.uiSettings.isZoomControlsEnabled = true
         MapHelper.clearMap(mMap)
         val markersList = MapHelper.getMarkerList(placesForRoute)
         MapHelper.setUpMarker(markersList, mMap)
@@ -71,9 +72,16 @@ class RouteViewModel : ViewModel() {
 
     fun selectTypeOfRoute(view: View) {
         when (view.id) {
-            R.id.radio_button_car -> _typeOfRoute.value = "driving"
-            R.id.radio_button_walking -> _typeOfRoute.value = "walking"
-            R.id.radio_button_bus -> _typeOfRoute.value = "transit"
+            R.id.radio_button_car ->
+                _typeOfRoute.value = "driving"
+
+            R.id.radio_button_walking ->
+                _typeOfRoute.value = "walking"
+
         }
+    }
+
+    fun buttonStartClick(view: View) {
+
     }
 }

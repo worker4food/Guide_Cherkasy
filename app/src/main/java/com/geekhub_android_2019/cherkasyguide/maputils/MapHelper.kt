@@ -1,9 +1,7 @@
 package com.geekhub_android_2019.cherkasyguide.maputils
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
+import android.graphics.*
 import android.util.Log
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.models.Place
@@ -25,19 +23,13 @@ import retrofit2.Response
 object MapHelper {
 
     private lateinit var context: Context
+    private lateinit var routePolyline: Polyline
 
     fun init(context: Context) {
         this.context = context
     }
 
     private lateinit var builder: LatLngBounds.Builder
-
-    private val b by lazy {
-        BitmapFactory.decodeResource(
-            context.resources,
-            R.drawable.pin
-        )
-    }
 
     private fun getPosition(place: Place): LatLng {
         val lat = place.location?.latitude ?: 49.444566
@@ -59,7 +51,7 @@ object MapHelper {
             )
         } else {
             CameraUpdateFactory.newLatLngBounds(
-                setUpBounds(markerList), 50
+                setUpBounds(markerList), 150
             )
         }
     }
@@ -100,16 +92,38 @@ object MapHelper {
 
     fun setUpMarker(markersList: ArrayList<PlaceMarker>, googleMap: GoogleMap) {
         for (marker in markersList) {
+            val number = (markersList.indexOf(marker) + 1).toString()
             googleMap.addMarker(
                 MarkerOptions()
                     .position(marker.position)
                     .title(marker.title)
-                    .icon(BitmapDescriptorFactory.fromBitmap(resizeIcon()))
+                    .icon(BitmapDescriptorFactory.fromBitmap(drawRouteMarker(number)))
             )
         }
     }
 
-    fun resizeIcon(): Bitmap = Bitmap.createScaledBitmap(b, 80, 130, false)
+    fun drawRouteMarker(text: String): Bitmap {
+        val b by lazy {
+            BitmapFactory.decodeResource(
+                context.resources,
+                R.drawable.pin_route
+            )
+        }
+        val bitmap = resizeIcon(b)
+        val canvas = Canvas(bitmap)
+        val paint = Paint()
+        paint.textSize = 48F
+        paint.style = Paint.Style.FILL
+        canvas.drawText(
+            text,
+            (bitmap.width / 3).toFloat(),
+            (bitmap.height / 2).toFloat(),
+            paint
+        )
+        return bitmap
+    }
+
+    fun resizeIcon(bitmap: Bitmap): Bitmap = Bitmap.createScaledBitmap(bitmap, 80, 130, false)
 
     fun drawRoute(
         googleMap: GoogleMap,
@@ -131,18 +145,22 @@ object MapHelper {
                 ) {
                     Log.d("code", response.code().toString())
                     val route = response.body()?.routes?.get(0)
+                    if (::routePolyline.isInitialized) {
+                        routePolyline.remove()
+                    }
                     drawPolyline(googleMap, route)
                 }
             })
     }
 
     private fun drawPolyline(googleMap: GoogleMap, route: RoutesItem?) {
+        val legs = route?.legs
         val shape = route?.overviewPolyline?.points
         Log.d("shape", shape.toString())
         val polyline = PolylineOptions()
             .addAll(PolyUtil.decode(shape))
             .width(16f)
-            .color(Color.BLUE)
-        googleMap.addPolyline(polyline)
+            .color(context.resources.getColor(R.color.colorSecondaryDark, context.theme))
+        routePolyline = googleMap.addPolyline(polyline)
     }
 }

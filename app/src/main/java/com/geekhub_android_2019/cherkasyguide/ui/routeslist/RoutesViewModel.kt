@@ -1,5 +1,6 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
