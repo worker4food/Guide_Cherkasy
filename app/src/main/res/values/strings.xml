@@ -16,4 +16,10 @@
     <string name="error_no_network">Нет интернета</string>
     <string name="action_try_again">Еще разок</string>
     <string name="show_route_map_button">Карта</string>
+    <plurals name="to_long_route">
+        <item quantity="one">"Маршрут не может содержать больше %d точки"</item>
+        <item quantity="other">"Маршрут не может содержать больше %d точек"</item>
+    </plurals>
+    <string name="to_short_route">Маршрут должен содержать не менее двух точек</string>
+    <string name="action_ok">OK</string>
 </resources>

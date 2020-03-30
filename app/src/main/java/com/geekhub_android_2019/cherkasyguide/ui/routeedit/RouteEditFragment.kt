@@ -5,10 +5,13 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.geekhub_android_2019.cherkasyguide.R
+import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.common.verticalGridCarousel
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.UserRoute
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_routeedit.*
 
 class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
@@ -23,6 +26,20 @@ class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
                 assembleViewModel(places, userRoute ?: UserRoute())
             }
         })
+
+        vm.observeWarnings(lifecycleScope) {
+            val msg = when (it) {
+                Messages.ROUTE_TO_LONG -> resources.getQuantityString(
+                    R.plurals.to_long_route,
+                    Limits.MAX_PLACES,
+                    Limits.MAX_PLACES
+                )
+            }
+
+            Snackbar.make(requireView(), msg, Snackbar.LENGTH_LONG)
+                .setAction(android.R.string.ok) {}
+                .show()
+        }
     }
 
     private fun assembleViewModel(places: List<Place>, userRoute: UserRoute) {
