@@ -8,16 +8,24 @@ import androidx.lifecycle.ViewModel
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.maputils.MapHelper
 import com.geekhub_android_2019.cherkasyguide.models.Places
+import com.geekhub_android_2019.cherkasyguide.routeapi.OnDrawRouteFailure
 import com.google.android.gms.maps.GoogleMap
 
-class RouteViewModel : ViewModel() {
+class RouteViewModel : ViewModel(), OnDrawRouteFailure {
 
     private lateinit var placesForRoute: Places
 
     private val _typeOfRoute = MutableLiveData<String>("driving")
     val typeOfRoute: LiveData<String> = _typeOfRoute
 
+    private val _statusDrawButton = MutableLiveData<Boolean>(true)
+    val statusDrawButton: LiveData<Boolean> = _statusDrawButton
+
     private lateinit var mMap: GoogleMap
+
+    init {
+        MapHelper.drawRouteFailureCallback = this
+    }
 
     fun init(places: Places) {
         placesForRoute = places
@@ -34,14 +42,13 @@ class RouteViewModel : ViewModel() {
     }
 
     fun drawRoute(mode: String) {
+        val originLocation = placesForRoute[0].location
+        val destanitionLocation = placesForRoute[placesForRoute.size - 1].location
         val origin =
-            placesForRoute[0].location?.latitude.toString() + "," + placesForRoute[0].location?.longitude.toString()
-        Log.d("origin", origin)
+            originLocation?.latitude.toString() + "," + originLocation?.longitude.toString()
         val destination =
-            placesForRoute[placesForRoute.size - 1].location?.latitude.toString() + "," + placesForRoute[placesForRoute.size - 1].location?.longitude.toString()
-        Log.d("destination", destination)
+            destanitionLocation?.latitude.toString() + "," + destanitionLocation?.longitude.toString()
         val waypoints = buildWaypoints()
-        Log.d("waypoints", waypoints)
         MapHelper.drawRoute(
             mMap,
             origin,
@@ -51,18 +58,24 @@ class RouteViewModel : ViewModel() {
         )
     }
 
+    override fun drawRouteFailure() {
+        Log.d("Error", "drawRouteFailure")
+        _statusDrawButton.value = false
+    }
+
     private fun buildWaypoints(): String {
         val waypointsBuilder = StringBuilder("")
         if (placesForRoute.size > 2) {
-            waypointsBuilder.append("optimize:true|")
-            var i = 1
-            while (i < placesForRoute.size - 1) {
+            var startElement = 1
+            val lastElement = placesForRoute.size - 1
+            while (startElement < lastElement) {
+                val waypointLocation = placesForRoute[startElement].location
                 waypointsBuilder
-                    .append(placesForRoute[i].location?.latitude)
+                    .append(waypointLocation?.latitude)
                     .append(",")
-                    .append(placesForRoute[i].location?.longitude)
+                    .append(waypointLocation?.longitude)
                     .append("|")
-                i++
+                startElement++
             }
         }
         Log.d("buildWaypoints", waypointsBuilder.toString())
@@ -81,9 +94,16 @@ class RouteViewModel : ViewModel() {
     }
 
     fun buttonStartClick(count: Int, view: View) {
-        if (count < placesForRoute.size-1) {
+        val size = placesForRoute.size
+        if (count < size - 1) {
             MapHelper.drawStepPolyline(mMap, count)
-            if (count == placesForRoute.size-2) {
+            val places: Places = Places()
+            places.add(placesForRoute[count])
+            places.add(placesForRoute[count + 1])
+            val markers = MapHelper.getMarkerList(places)
+            MapHelper.setUpCamera(markers, mMap)
+
+            if (count == size - 2) {
                 view.isEnabled = false
             }
         }

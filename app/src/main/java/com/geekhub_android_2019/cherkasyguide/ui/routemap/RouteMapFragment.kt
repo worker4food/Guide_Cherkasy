@@ -47,6 +47,9 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
         routeViewModel.typeOfRoute.observe(this, Observer {
             routeViewModel.drawRoute(it)
         })
+        routeViewModel.statusDrawButton.observe(this, Observer {
+            button_step_of_route.isEnabled = it
+        })
     }
 
     override fun onResume() {

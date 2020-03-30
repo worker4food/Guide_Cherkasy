@@ -1,7 +1,10 @@
 package com.geekhub_android_2019.cherkasyguide.maputils
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.util.Log
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.models.Place
@@ -9,6 +12,7 @@ import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.geekhub_android_2019.cherkasyguide.models.routeapiresponse.DirectionResponse
 import com.geekhub_android_2019.cherkasyguide.models.routeapiresponse.RoutesItem
 import com.geekhub_android_2019.cherkasyguide.routeapi.DirectionsApiFactory
+import com.geekhub_android_2019.cherkasyguide.routeapi.OnDrawRouteFailure
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,12 +22,14 @@ import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.algo.GridBasedAlgorithm
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 
 object MapHelper {
 
     private lateinit var context: Context
     private lateinit var routePolyline: Polyline
+    private var polylines: ArrayList<Polyline> = ArrayList()
     private lateinit var route: RoutesItem
 
     fun init(context: Context) {
@@ -31,6 +37,8 @@ object MapHelper {
     }
 
     private lateinit var builder: LatLngBounds.Builder
+
+    lateinit var drawRouteFailureCallback: OnDrawRouteFailure
 
     fun getPosition(place: Place): LatLng {
         val lat = place.location?.latitude ?: 49.444566
@@ -69,7 +77,7 @@ object MapHelper {
         manager.cluster()
     }
 
-    private fun setUpBounds(markerList: ArrayList<PlaceMarker>): LatLngBounds {
+    fun setUpBounds(markerList: ArrayList<PlaceMarker>): LatLngBounds {
         builder = LatLngBounds.builder()
         for (marker in markerList) {
             builder.include(marker.position)
@@ -137,6 +145,7 @@ object MapHelper {
             .enqueue(object : Callback<DirectionResponse> {
                 override fun onFailure(call: Call<DirectionResponse>, t: Throwable) {
                     Log.d("error", "ERROR")
+                    drawRouteFailureCallback.drawRouteFailure()
                     t.printStackTrace()
                 }
 
@@ -144,12 +153,16 @@ object MapHelper {
                     call: Call<DirectionResponse>,
                     response: Response<DirectionResponse>
                 ) {
-                    Log.d("code", response.code().toString())
-                    route = response.body()?.routes?.get(0)!!
-                    if (::routePolyline.isInitialized) {
-                        routePolyline.remove()
+                    Log.d("response", "RESPONSE")
+                    if (response.isSuccessful) {
+                        route = response.body()?.routes?.get(0)!!
+                        if (::routePolyline.isInitialized) {
+                            routePolyline.remove()
+                        }
+                        drawPolyline(googleMap)
+                    } else {
+                        throw HttpException(response)
                     }
-                    drawPolyline(googleMap)
                 }
             })
     }
@@ -160,7 +173,7 @@ object MapHelper {
         val polyline = PolylineOptions()
             .addAll(PolyUtil.decode(shape))
             .width(16f)
-            .color(context.resources.getColor(R.color.colorSecondaryDark, context.theme))
+            .color(R.color.colorSecondaryDark)
         routePolyline = googleMap.addPolyline(polyline)
     }
 
@@ -172,11 +185,24 @@ object MapHelper {
             val points = it?.polyline?.points
             path.add(PolyUtil.decode(points))
         }
-
-        path.forEach {
-            routePolyline = googleMap.addPolyline(PolylineOptions()
-                .addAll(it)
-                .color(Color.BLUE))
+        if (count == 0) routePolyline.remove()
+        polylines.forEach {
+            it.remove()
         }
+        path.forEach {
+            routePolyline = googleMap.addPolyline(
+                PolylineOptions()
+                    .addAll(it)
+                    .width(16F)
+                    .color(setStepColor(count))
+            )
+            polylines.add(routePolyline)
+        }
+    }
+
+    private fun setStepColor(count: Int): Int = when (count) {
+        0 -> context.getColor(R.color.step0)
+        1 -> context.getColor(R.color.step1)
+        else -> R.color.black
     }
 }
