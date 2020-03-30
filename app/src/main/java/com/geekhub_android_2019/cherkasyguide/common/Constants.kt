@@ -5,3 +5,7 @@ object Collection {
     const val ROUTES = "routes"
     const val USER_ROUTES = "user_routes"
 }
+
+object Limits {
+    const val MAX_PLACES = 10
+}

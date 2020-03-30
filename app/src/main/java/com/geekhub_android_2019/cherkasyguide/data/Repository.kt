@@ -1,6 +1,7 @@
 package com.geekhub_android_2019.cherkasyguide.data
 
 import com.geekhub_android_2019.cherkasyguide.common.Collection
+import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.models.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
@@ -8,7 +9,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
-import java.security.InvalidParameterException
+import java.lang.IllegalArgumentException
 
 class Repository {
 
@@ -62,8 +63,10 @@ class Repository {
             .await()
     }
 
-    private fun fetchPlaces(placeIds: List<String>): Flow<List<Place>> =
-        if (placeIds.isNotEmpty())
+    private fun fetchPlaces(placeIds_: List<String>): Flow<List<Place>> {
+        val placeIds = placeIds_.take(Limits.MAX_PLACES)
+
+        return if (placeIds.isNotEmpty())
             rootRef.collection(Collection.PLACES)
                 .whereIn(FieldPath.documentId(), placeIds)
                 .asFlow<Place>()
@@ -72,9 +75,10 @@ class Repository {
 
                     placeIds.map { id ->
                         id2place[id]
-                            ?: throw InvalidParameterException("Place for id <$id> is null")
+                            ?: throw IllegalArgumentException("Place for id <$id> is null")
                     }
                 }
         else
             flowOf(listOf())
+    }
 }
