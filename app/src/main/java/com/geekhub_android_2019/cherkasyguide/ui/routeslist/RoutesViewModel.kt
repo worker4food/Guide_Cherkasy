@@ -11,6 +11,7 @@ import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.Places
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 
 class RoutesViewModel : BaseViewModel<Messages>() {
@@ -25,6 +26,7 @@ class RoutesViewModel : BaseViewModel<Messages>() {
             )
         }
         .flowOn(Dispatchers.IO)
+        .conflate()
         .asLiveData(viewModelScope.coroutineContext)
 
     fun createEditRoute(navController: NavController) {

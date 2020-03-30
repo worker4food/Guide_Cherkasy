@@ -26,16 +26,11 @@ class Repository {
         rootRef.collection(Collection.ROUTES)
             .asFlow<Internal.Route>()
             .transformLatest { rawRoutes ->
-                // Emit routes without places
-                emit(rawRoutes.map { Route(it.id, it.name) })
-
-                // Construct routes with places
                 val routeFlows: List<Flow<Route>> = rawRoutes.map { rawRoute ->
                     fetchPlaces(rawRoute.placeIds)
                         .map { Route(rawRoute.id, rawRoute.name, it) }
                 }
 
-                // Finally, emit routes with places
                 combine(routeFlows) { it.asList() }
                     .also { emitAll(it) }
             }

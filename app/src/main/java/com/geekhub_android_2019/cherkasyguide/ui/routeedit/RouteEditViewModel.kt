@@ -10,6 +10,7 @@ import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.UserRoute
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
@@ -22,6 +23,7 @@ class RouteEditViewModel : BaseViewModel<Messages>() {
             ViewState(places, userRoute)
         }
         .flowOn(Dispatchers.IO)
+        .conflate()
         .asLiveData(viewModelScope.coroutineContext)
 
     fun toggleCheck(place: Place) = viewModelScope.launch(Dispatchers.IO) {
