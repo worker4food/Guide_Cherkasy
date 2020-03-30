@@ -10,8 +10,8 @@ import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.Places
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
-
 
 class PlacesListViewModel : ViewModel() {
 
@@ -19,6 +19,7 @@ class PlacesListViewModel : ViewModel() {
 
     val places: LiveData<List<Place>> = repo.getPlaces()
         .flowOn(Dispatchers.IO)
+        .conflate()
         .asLiveData(viewModelScope.coroutineContext)
 
     fun list(view: View, place: Place) {
