@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_place_detail.view.*
 
 class PlaceDetailFragment : Fragment() {
 
-    val placeArgs by navArgs<PlaceDetailFragmentArgs>()
+   private val placeArgs by navArgs<PlaceDetailFragmentArgs>()
     private val detailViewModel by activityViewModels<PlaceDetailViewModel>()
 
     override fun onCreateView(

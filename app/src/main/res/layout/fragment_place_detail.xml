@@ -8,34 +8,35 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.placedetail.PlaceDetailFragment">
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/placeDetail_imageHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="280dp" />
+
+        <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+            android:id="@+id/spring_dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:dotsCornerRadius="4dp"
+            app:dotsSize="10dp"
+            app:dotsSpacing="2dp"
+            app:dotsStrokeWidth="1dp" />
+
+        <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="55dp">
 
-        <LinearLayout
-            android:id="@+id/placeDetail_imageHolder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="4dp">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="280dp" />
-
-            <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
-                android:id="@+id/spring_dots_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="visible"
-                app:dotsCornerRadius="4dp"
-                app:dotsSize="10dp"
-                app:dotsSpacing="2dp"
-                app:dotsStrokeWidth="1dp" />
 
 
             <LinearLayout
@@ -65,10 +66,10 @@
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
-            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
-
+    </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_view"
         style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"

@@ -116,8 +116,6 @@ dependencies {
     //EPOXY
     implementation 'com.airbnb.android:epoxy:3.9.0'
     kapt 'com.airbnb.android:epoxy-processor:3.9.0'
-
-    //palette
-    implementation 'androidx.palette:palette:1.0.0'
+    
 
 }
