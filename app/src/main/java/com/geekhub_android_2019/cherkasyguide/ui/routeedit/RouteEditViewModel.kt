@@ -8,7 +8,9 @@ import com.geekhub_android_2019.cherkasyguide.common.BaseViewModel
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.UserRoute
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class RouteEditViewModel : BaseViewModel<Messages>() {
@@ -18,9 +20,11 @@ class RouteEditViewModel : BaseViewModel<Messages>() {
     val state: LiveData<ViewState> =
         combine(repo.getPlaces(), repo.getUserRouteOrNUll()) { places, userRoute ->
             ViewState(places, userRoute)
-        }.asLiveData()
+        }
+        .flowOn(Dispatchers.IO)
+        .asLiveData(viewModelScope.coroutineContext)
 
-    fun toggleCheck(place: Place) = viewModelScope.launch {
+    fun toggleCheck(place: Place) = viewModelScope.launch(Dispatchers.IO) {
         val (id, selected) = state.value?.userRoute ?: UserRoute()
 
         val newPlaces =
