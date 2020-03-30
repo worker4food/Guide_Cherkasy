@@ -1,17 +1,19 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.geekhub_android_2019.cherkasyguide.common.BaseViewModel
+import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.Places
-import com.geekhub_android_2019.cherkasyguide.models.Route
-import com.geekhub_android_2019.cherkasyguide.models.UserRoute
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 
-class RoutesViewModel : ViewModel() {
+class RoutesViewModel : BaseViewModel<Messages>() {
 
     private val repo = Repository()
 
@@ -21,7 +23,9 @@ class RoutesViewModel : ViewModel() {
                 routes,
                 userRoute
             )
-        }.asLiveData()
+        }
+        .flowOn(Dispatchers.IO)
+        .asLiveData(viewModelScope.coroutineContext)
 
     fun createEditRoute(navController: NavController) {
         RouteListFragmentDirections.actionToRouteEditFragment().also {
@@ -30,9 +34,15 @@ class RoutesViewModel : ViewModel() {
     }
 
     fun viewRouteMap(navController: NavController, places: List<Place>) {
-        val arg = Places().apply { addAll(places) }
-        RouteListFragmentDirections.actionToRouteMap(arg).also {
-            navController.navigate(it)
+        when {
+            places.size < 2 -> warn(Messages.ROUTE_TO_SHORT)
+            places.size > Limits.MAX_PLACES -> warn(Messages.ROUTE_TO_LONG)
+            else -> {
+                val arg = Places().apply { addAll(places) }
+                RouteListFragmentDirections.actionToRouteMap(arg).also {
+                    navController.navigate(it)
+                }
+            }
         }
     }
 

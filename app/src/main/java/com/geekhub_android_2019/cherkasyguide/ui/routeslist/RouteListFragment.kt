@@ -5,10 +5,13 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.*
 import com.geekhub_android_2019.cherkasyguide.R
+import com.geekhub_android_2019.cherkasyguide.common.Limits
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_routes_list.*
 
 class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
@@ -23,6 +26,21 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
         vm.routes.observe(viewLifecycleOwner, Observer {
             it?.let(::assembleView)
         })
+
+        vm.observeWarnings(lifecycleScope) {
+            val msg = when (it) {
+                Messages.ROUTE_TO_SHORT -> resources.getString(R.string.to_short_route)
+                Messages.ROUTE_TO_LONG -> resources.getQuantityString(
+                    R.plurals.to_long_route,
+                    Limits.MAX_PLACES,
+                    Limits.MAX_PLACES
+                )
+            }
+
+            Snackbar.make(requireView(), msg, Snackbar.LENGTH_LONG)
+                .setAction(android.R.string.ok) {}
+                .show()
+        }
     }
 
     private fun assembleView(state: ViewState) {

@@ -1,32 +1,40 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routeedit
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.geekhub_android_2019.cherkasyguide.common.Limits
+import com.geekhub_android_2019.cherkasyguide.common.BaseViewModel
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.UserRoute
-import com.google.firebase.firestore.auth.User
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
-class RouteEditViewModel: ViewModel() {
+class RouteEditViewModel : BaseViewModel<Messages>() {
 
     private val repo = Repository()
 
     val state: LiveData<ViewState> =
         combine(repo.getPlaces(), repo.getUserRouteOrNUll()) { places, userRoute ->
             ViewState(places, userRoute)
-        }.asLiveData()
+        }
+        .flowOn(Dispatchers.IO)
+        .asLiveData(viewModelScope.coroutineContext)
 
-    fun toggleCheck(place: Place) = viewModelScope.launch {
+    fun toggleCheck(place: Place) = viewModelScope.launch(Dispatchers.IO) {
         val (id, selected) = state.value?.userRoute ?: UserRoute()
 
         val newPlaces =
-            if(selected.contains(place)) selected - place
+            if (selected.contains(place)) selected - place
             else selected + place
 
-        UserRoute(id, newPlaces).also { repo.updateUserRoute(it) }
+        if (newPlaces.size > Limits.MAX_PLACES)
+            warn(Messages.ROUTE_TO_LONG)
+        else
+            UserRoute(id, newPlaces)
+                .also { repo.updateUserRoute(it) }
     }
 }
