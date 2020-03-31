@@ -9,7 +9,7 @@ import com.geekhub_android_2019.cherkasyguide.R
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_start_screen.*
 
-class StartScreenFragment() : Fragment(R.layout.fragment_start_screen), View.OnClickListener {
+class StartScreenFragment : Fragment(R.layout.fragment_start_screen), View.OnClickListener {
 
     private val startScreenViewModel
             by activityViewModels<StartScreenViewModel>()
