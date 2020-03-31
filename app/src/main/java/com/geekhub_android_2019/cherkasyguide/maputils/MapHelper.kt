@@ -113,7 +113,7 @@ object MapHelper {
             googleMap,
             PolyUtil.decode(shape),
             16F,
-            context.getColor(R.color.colorSecondaryDark)
+            context.getColor(R.color.polylineColor)
         )
     }
 
@@ -133,7 +133,7 @@ object MapHelper {
         }
     }
 
-    private fun addPolyline(googleMap: GoogleMap, list: List<LatLng>, width: Float, color: Int): Polyline {
+    fun addPolyline(googleMap: GoogleMap, list: List<LatLng>, width: Float, color: Int): Polyline {
         return googleMap.addPolyline(
             Utils.polylineOptions(list, width, color)
         )

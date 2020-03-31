@@ -15,8 +15,7 @@ import com.google.android.gms.maps.GoogleMap
 class RouteViewModel : ViewModel(), OnDrawRouteFailure {
 
     private lateinit var placesForRoute: Places
-    private val size by lazy { placesForRoute.size }
-    
+
     private var _startPlace = MutableLiveData<Place>()
     val startPlace = _startPlace
 
@@ -57,7 +56,7 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
 
     fun drawRoute(mode: String) {
         val originLocation = placesForRoute[0].location
-        val destanitionLocation = placesForRoute[size - 1].location
+        val destanitionLocation = placesForRoute[placesForRoute.size - 1].location
         val origin =
             originLocation?.latitude.toString() + "," + originLocation?.longitude.toString()
         val destination =
@@ -78,9 +77,9 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
 
     private fun buildWaypoints(): String {
         val waypointsBuilder = StringBuilder("")
-        if (size > 2) {
+        if (placesForRoute.size > 2) {
             var startElement = 1
-            val lastElement = size - 1
+            val lastElement = placesForRoute.size - 1
             while (startElement < lastElement) {
                 val waypointLocation = placesForRoute[startElement].location
                 waypointsBuilder
@@ -105,7 +104,7 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
     }
 
     fun buttonStartClick(count: Int, view: View) {
-        if (count < size - 1) {
+        if (count < placesForRoute.size - 1) {
             val startPoint = placesForRoute[count]
             val endPoint = placesForRoute[count + 1]
             _startPlace.value = startPoint
@@ -122,7 +121,7 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
                 setUpCamera(mMap, updateCameraBounds(markers))
             }
 
-            if (count == size - 2) {
+            if (count == placesForRoute.size - 2) {
                 view.isEnabled = false
             }
         }
