@@ -1,12 +1,13 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routemap
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.maputils.MapHelper
+import com.geekhub_android_2019.cherkasyguide.maputils.Utils
+import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.geekhub_android_2019.cherkasyguide.routeapi.OnDrawRouteFailure
 import com.google.android.gms.maps.GoogleMap
@@ -14,6 +15,16 @@ import com.google.android.gms.maps.GoogleMap
 class RouteViewModel : ViewModel(), OnDrawRouteFailure {
 
     private lateinit var placesForRoute: Places
+    private val size by lazy { placesForRoute.size }
+    
+    private var _startPlace = MutableLiveData<Place>()
+    val startPlace = _startPlace
+
+    private var _endPlace = MutableLiveData<Place>()
+    val endPlace = _endPlace
+
+    private var _lastRadioState = R.id.radio_button_car
+    val lastRadioState get() = _lastRadioState
 
     private val _typeOfRoute = MutableLiveData<String>("driving")
     val typeOfRoute: LiveData<String> = _typeOfRoute
@@ -36,14 +47,17 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
         mMap.uiSettings.isMapToolbarEnabled = false
         mMap.uiSettings.isZoomControlsEnabled = true
         MapHelper.clearMap(mMap)
-        val markersList = MapHelper.getMarkerList(placesForRoute)
-        MapHelper.setUpMarker(markersList, mMap)
-        MapHelper.setUpCamera(markersList, mMap)
+        val markersList = Utils.getMarkerList(placesForRoute)
+        markersList.forEachIndexed { index, placeMarker ->
+            MapHelper.setUpMarker(placeMarker, (index + 1).toString(), mMap)
+        }
+        val updateCamera = MapHelper.updateCameraBounds(markersList)
+        MapHelper.setUpCamera(mMap, updateCamera)
     }
 
     fun drawRoute(mode: String) {
         val originLocation = placesForRoute[0].location
-        val destanitionLocation = placesForRoute[placesForRoute.size - 1].location
+        val destanitionLocation = placesForRoute[size - 1].location
         val origin =
             originLocation?.latitude.toString() + "," + originLocation?.longitude.toString()
         val destination =
@@ -59,15 +73,14 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
     }
 
     override fun drawRouteFailure() {
-        Log.d("Error", "drawRouteFailure")
         _statusDrawButton.value = false
     }
 
     private fun buildWaypoints(): String {
         val waypointsBuilder = StringBuilder("")
-        if (placesForRoute.size > 2) {
+        if (size > 2) {
             var startElement = 1
-            val lastElement = placesForRoute.size - 1
+            val lastElement = size - 1
             while (startElement < lastElement) {
                 val waypointLocation = placesForRoute[startElement].location
                 waypointsBuilder
@@ -78,30 +91,36 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
                 startElement++
             }
         }
-        Log.d("buildWaypoints", waypointsBuilder.toString())
         return waypointsBuilder.toString()
     }
 
     fun selectTypeOfRoute(view: View) {
+        _lastRadioState = view.id
         when (view.id) {
             R.id.radio_button_car ->
                 _typeOfRoute.value = "driving"
-
             R.id.radio_button_walking ->
                 _typeOfRoute.value = "walking"
-
         }
     }
 
     fun buttonStartClick(count: Int, view: View) {
-        val size = placesForRoute.size
         if (count < size - 1) {
-            MapHelper.drawStepPolyline(mMap, count)
+            val startPoint = placesForRoute[count]
+            val endPoint = placesForRoute[count + 1]
+            _startPlace.value = startPoint
+            _endPlace.value = endPoint
             val places: Places = Places()
-            places.add(placesForRoute[count])
-            places.add(placesForRoute[count + 1])
-            val markers = MapHelper.getMarkerList(places)
-            MapHelper.setUpCamera(markers, mMap)
+            places.add(startPoint)
+            places.add(endPoint)
+            val markers = Utils.getMarkerList(places)
+            with(MapHelper) {
+                clearMap(mMap)
+                setUpMarker(markers[0], (count+1).toString(), mMap)
+                setUpMarker(markers[1], (count+2).toString(), mMap)
+                drawStepPolyline(mMap, count)
+                setUpCamera(mMap, updateCameraBounds(markers))
+            }
 
             if (count == size - 2) {
                 view.isEnabled = false

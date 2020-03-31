@@ -2,6 +2,7 @@ package com.geekhub_android_2019.cherkasyguide.ui.placemap
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -16,8 +17,8 @@ class PlaceMapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
     private val args: PlaceMapFragmentArgs by navArgs()
     private val  placeViewModel: PlaceViewModel by activityViewModels()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         map_view.onCreate(savedInstanceState)
         map_view.onResume()

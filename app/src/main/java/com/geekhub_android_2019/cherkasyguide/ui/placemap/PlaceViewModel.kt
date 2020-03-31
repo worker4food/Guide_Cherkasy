@@ -3,13 +3,13 @@ package com.geekhub_android_2019.cherkasyguide.ui.placemap
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.geekhub_android_2019.cherkasyguide.maputils.MapHelper
+import com.geekhub_android_2019.cherkasyguide.maputils.Utils
 import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.google.android.gms.maps.GoogleMap
 
 class PlaceViewModel : ViewModel() {
 
     private lateinit var _places: Places
-    val places: Places get() = _places
 
     private lateinit var mMap: GoogleMap
 
@@ -22,8 +22,14 @@ class PlaceViewModel : ViewModel() {
         mMap.uiSettings.isMapToolbarEnabled = false
         mMap.uiSettings.isZoomControlsEnabled = true
         MapHelper.clearMap(googleMap)
-        val markersList = MapHelper.getMarkerList(_places)
+        val markersList = Utils.getMarkerList(_places)
         MapHelper.setUpClusterOfMarkers(mMap, markersList, context)
-        MapHelper.setUpCamera(markersList, mMap)
+        val updateCamera =
+            if (markersList.toList().size == 1) {
+                MapHelper.updateCameraZoom(markersList)
+            } else {
+                MapHelper.updateCameraBounds(markersList)
+            }
+        MapHelper.setUpCamera(mMap, updateCamera)
     }
 }
