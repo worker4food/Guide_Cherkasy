@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.geekhub_android_2019.cherkasyguide.NetHelper
+import com.geekhub_android_2019.cherkasyguide.network.NetHelper
 import com.geekhub_android_2019.cherkasyguide.R
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_start_screen.*
-import java.util.Calendar.getInstance
 
 class StartScreenFragment() : Fragment(R.layout.fragment_start_screen), View.OnClickListener {
 
     private val startScreenViewModel
             by activityViewModels<StartScreenViewModel>()
-
-//    val netHelper = NetHelper(context!!)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,12 +22,15 @@ class StartScreenFragment() : Fragment(R.layout.fragment_start_screen), View.OnC
     }
 
     override fun onClick(view: View) {
-//        if(NetHelper.getInstance(application = activity!!.application).isOverWifi){
-//        if(netHelper.isNetworkAvailable(context!!)){
+        if (NetHelper.getInstance(application = activity!!.application).isOverWifi) {
             startScreenViewModel.select(view)
-
-
+        }
+        Snackbar.make(
+            view,
+            "Нет подключения к Интернету. Повторите попытку позже",
+            Snackbar.LENGTH_LONG
+        )
+            .setAction(android.R.string.ok) {}
+            .show()
     }
-
 }
-

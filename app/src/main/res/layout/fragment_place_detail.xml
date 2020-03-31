@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_detailPlace"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_above="@+id/bottom_nav_view"
@@ -32,12 +33,10 @@
             app:dotsStrokeWidth="1dp" />
 
         <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="55dp">
-
-
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="55dp">
 
             <LinearLayout
                 android:id="@+id/placeDetail_textHolder"
@@ -45,15 +44,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <com.codesgood.views.JustifiedTextView
                     android:id="@+id/textView_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginEnd="15dp"
+                    android:paddingBottom="6dp"
                     android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
                     android:textColor="@android:color/background_dark"
-                    android:textSize="17sp"
+                    android:textSize="18sp"
                     android:textStyle="italic|bold" />
 
                 <com.codesgood.views.JustifiedTextView
@@ -66,10 +65,10 @@
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
-
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_view"
         style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"

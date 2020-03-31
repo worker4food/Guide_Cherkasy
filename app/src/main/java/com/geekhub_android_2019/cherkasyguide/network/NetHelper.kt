@@ -1,27 +1,22 @@
-package com.geekhub_android_2019.cherkasyguide
+package com.geekhub_android_2019.cherkasyguide.network
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.net.*
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.google.firebase.firestore.remote.ConnectivityMonitor
-import com.squareup.okhttp.internal.Internal.logger
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.coroutineContext
 
 
-class NetHelper(context: Context){
+class NetHelper(application: Application) {
 
-/* *//*   val context:Context? = null*//*
     private val connectivityManager =
         application.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE)
                 as ConnectivityManager
@@ -35,10 +30,6 @@ class NetHelper(context: Context){
     var isOverWifi = false
         get() {
             updateFields()
-            *//*Toast.makeText(
-                context,
-                "Нет подключения к Интернету. Повторите попытку позже", Toast.LENGTH_LONG
-            ).show()*//*
             return field
         }
 
@@ -61,7 +52,10 @@ class NetHelper(context: Context){
         fun getInstance(application: Application): NetHelper {
             synchronized(this) {
                 if (INSTANCE == null) {
-                    INSTANCE = NetHelper(application)
+                    INSTANCE =
+                        NetHelper(
+                            application
+                        )
                 }
                 return INSTANCE!!
             }
@@ -124,7 +118,7 @@ class NetHelper(context: Context){
         }
     }
 
-    fun watchNetwork(): Flow<Boolean> = watchWifi()
+    private fun watchNetwork(): Flow<Boolean> = watchWifi()
         .combine(watchCellular()) { wifi, cellular -> wifi || cellular }
         .combine(watchEthernet()) { wifiAndCellular, ethernet -> wifiAndCellular || ethernet }
 
@@ -160,7 +154,6 @@ class NetHelper(context: Context){
             }
 
             override fun onLosing(network: Network?, maxMsToLive: Int) {
-                // do nothing
             }
 
             override fun onAvailable(network: Network?) {
@@ -172,75 +165,4 @@ class NetHelper(context: Context){
 
         awaitClose { connectivityManager.unregisterNetworkCallback(callback) }
     }
-}*/
-
-
-
-
-    private val connectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-
-    private var networkCallback = object : ConnectivityManager.NetworkCallback() {
-        override fun onLost(network: Network?) {
-            val toast = Toast.makeText(
-                context,
-                "Нет подключения к Интернету. Повторите попытку позже", Toast.LENGTH_LONG
-            )
-            toast.show()
-        }
-
-        override fun onUnavailable() {
-            Log.d("call from onUnvailable", "")
-        }
-
-        override fun onLosing(network: Network?, maxMsToLive: Int) {
-            Log.d("called from onLosing", "")
-        }
-
-        override fun onAvailable(network: Network?) {
-            Log.d("called from onAvailable", "")
-            //record wi-fi connect event
-        }
-    }
-
-    private val networkRequest = NetworkRequest.Builder()
-        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-        .build()
-
-
-
-    fun isNetworkAvailable(context: Context): Boolean {
-        if (connectivityManager != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val capabilities =
-                    connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-                if (capabilities != null) {
-                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                        return true
-                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                        return true
-                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                        return true
-                    }
-                }
-            } else {
-                try {
-
-                    connectivityManager.unregisterNetworkCallback(networkCallback)
-                } catch (e: Exception) {
-                    val toast = Toast.makeText(
-                        context,
-                        "Нет подключения к Интернету. Повторите попытку позже", Toast.LENGTH_LONG
-                    )
-                    toast.show()
-                }
-                connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-            }
-        }
-        return false
-    }
 }
-
-
-
-

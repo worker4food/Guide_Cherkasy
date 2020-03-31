@@ -12,9 +12,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.geekhub_android_2019.cherkasyguide.network.NetHelper
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_places_list.*
 import kotlinx.android.synthetic.main.fragment_places_list.view.*
 
@@ -63,6 +65,17 @@ class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
     }
 
     override fun onClick(place: Place) {
-        listViewModel.list(this.requireView(), place)
+        if (NetHelper.getInstance(application = activity!!.application).isOverWifi) {
+            listViewModel.list(this.requireView(), place)
+        }
+        val snackbar =
+            Snackbar.make(
+                requireView(),
+                "Нет подключения к Интернету. Повторите попытку позже",
+                Snackbar.LENGTH_LONG
+            )
+        snackbar.anchorView = bottom_nav_view
+        snackbar.setAction(android.R.string.ok) {}
+        snackbar.show()
     }
 }
