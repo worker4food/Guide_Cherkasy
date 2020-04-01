@@ -12,11 +12,13 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.geekhub_android_2019.cherkasyguide.network.NetHelper
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_places_list.*
 import kotlinx.android.synthetic.main.fragment_places_list.view.*
-import kotlinx.android.synthetic.main.list_places_item.*
 
 
 class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
@@ -24,15 +26,13 @@ class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
     private lateinit var mAdapter: PlacesAdapter
     private val listViewModel by activityViewModels<PlacesListViewModel>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val fragmentLayout = inflater.inflate(R.layout.fragment_places_list, container, false)
-        val listPlaces = inflater.inflate(R.layout.list_places_item, container,false)
-        val progressBar = listPlaces.findViewById<ProgressBar>(R.id.progressBar)
+        val progressBar = fragmentLayout.findViewById<ProgressBar>(R.id.progressBar)
         progressBar.visibility = ProgressBar.VISIBLE
         val navController = NavHostFragment.findNavController(this)
         val bottomBar = view?.findViewById<NavigationView>(R.id.bottom_nav_view)
@@ -46,7 +46,6 @@ class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
             return@setOnNavigationItemSelectedListener true
         }
         return fragmentLayout
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,13 +56,26 @@ class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
             recyclerView.apply {
                 adapter = mAdapter
                 layoutManager = LinearLayoutManager(activity)
+                scrollToPosition(0)
+                visibility = View.VISIBLE
             }
             mAdapter.notifyDataSetChanged()
+            progressBar.visibility = View.GONE
         })
     }
 
     override fun onClick(place: Place) {
-        listViewModel.list(this.requireView(), place)
-
+        if (NetHelper.getInstance(application = activity!!.application).isOnline) {
+            listViewModel.list(this.requireView(), place)
+        }
+        val snackbar =
+            Snackbar.make(
+                requireView(),
+                "Нет подключения к Интернету. Повторите попытку позже",
+                Snackbar.LENGTH_LONG
+            )
+        snackbar.anchorView = bottom_nav_view
+        snackbar.setAction(android.R.string.ok) {}
+        snackbar.show()
     }
 }

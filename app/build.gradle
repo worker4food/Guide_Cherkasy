@@ -11,6 +11,8 @@ apply plugin: 'kotlin-kapt'
 // Google Services plugin
 apply plugin: 'com.google.gms.google-services'
 
+apply plugin: 'com.google.firebase.crashlytics'
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -81,7 +83,9 @@ dependencies {
     // firebase
     implementation "com.google.firebase:firebase-auth:$auth_version"
     implementation "com.google.firebase:firebase-firestore-ktx:$firestore_version"
-
+    implementation 'com.google.firebase:firebase-analytics:17.3.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta03'
+    
     // coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
@@ -116,4 +120,6 @@ dependencies {
     //EPOXY
     implementation 'com.airbnb.android:epoxy:3.9.0'
     kapt 'com.airbnb.android:epoxy-processor:3.9.0'
+    
+
 }
