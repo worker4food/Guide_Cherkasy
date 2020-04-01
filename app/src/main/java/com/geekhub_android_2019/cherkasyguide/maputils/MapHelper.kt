@@ -45,6 +45,10 @@ object MapHelper {
         googleMap.moveCamera(cameraUpdate)
     }
 
+    fun animateCamera(googleMap: GoogleMap, cameraUpdate: CameraUpdate) {
+        googleMap.animateCamera(cameraUpdate)
+    }
+
     fun updateCameraZoom(markerList: ArrayList<PlaceMarker>): CameraUpdate {
         return CameraUpdateFactory.newLatLngZoom(
             markerList[0].position,

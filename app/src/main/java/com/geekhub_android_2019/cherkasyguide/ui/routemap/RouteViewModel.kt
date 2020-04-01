@@ -1,6 +1,7 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routemap
 
 import android.view.View
+import android.view.View.GONE
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,13 +17,10 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
 
     private lateinit var placesForRoute: Places
 
-    private var _startPlace = MutableLiveData<Place>()
-    val startPlace = _startPlace
-
     private var _endPlace = MutableLiveData<Place>()
     val endPlace = _endPlace
 
-    private var _lastRadioState = R.id.radio_button_car
+    private var _lastRadioState = R.id.button_car
     val lastRadioState get() = _lastRadioState
 
     private val _typeOfRoute = MutableLiveData<String>("driving")
@@ -44,7 +42,6 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
     fun createMap(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isMapToolbarEnabled = false
-        mMap.uiSettings.isZoomControlsEnabled = true
         MapHelper.clearMap(mMap)
         val markersList = Utils.getMarkerList(placesForRoute)
         markersList.forEachIndexed { index, placeMarker ->
@@ -96,9 +93,10 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
     fun selectTypeOfRoute(view: View) {
         _lastRadioState = view.id
         when (view.id) {
-            R.id.radio_button_car ->
+            R.id.button_car ->
                 _typeOfRoute.value = "driving"
-            R.id.radio_button_walking ->
+
+            R.id.button_walking ->
                 _typeOfRoute.value = "walking"
         }
     }
@@ -107,7 +105,6 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
         if (count < placesForRoute.size - 1) {
             val startPoint = placesForRoute[count]
             val endPoint = placesForRoute[count + 1]
-            _startPlace.value = startPoint
             _endPlace.value = endPoint
             val places: Places = Places()
             places.add(startPoint)
@@ -118,11 +115,11 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
                 setUpMarker(markers[0], (count+1).toString(), mMap)
                 setUpMarker(markers[1], (count+2).toString(), mMap)
                 drawStepPolyline(mMap, count)
-                setUpCamera(mMap, updateCameraBounds(markers))
+                animateCamera(mMap, updateCameraBounds(markers))
             }
 
             if (count == placesForRoute.size - 2) {
-                view.isEnabled = false
+                view.visibility = GONE
             }
         }
     }

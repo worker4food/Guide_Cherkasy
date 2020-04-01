@@ -1,10 +1,10 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routemap
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -22,6 +22,7 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
     private val routeViewModel: RouteViewModel by activityViewModels()
     var mCount = 0
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -30,27 +31,21 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
 
         map_view.getMapAsync(this)
 
-        steps_of_route.visibility = GONE
-        textView_route_title.text = args.routeTitle
-
-        radio_button_walking.setOnClickListener(this)
-        radio_button_car.setOnClickListener(this)
+        button_walking.setOnClickListener(this)
+        button_car.setOnClickListener(this)
         button_start_route.setOnClickListener {
-            steps_of_route.visibility = VISIBLE
-            button_start_route.text = getString(R.string.next)
             routeViewModel.buttonStartClick(mCount, it)
-            radio_button_car.isEnabled = false
-            radio_button_walking.isEnabled = false
+            button_car.visibility = GONE
+            button_walking.visibility = GONE
             mCount++
         }
 
-        routeViewModel.startPlace.observe(viewLifecycleOwner, Observer {
-            textView_start_point.text = it.name
-        })
-
-        routeViewModel.endPlace.observe(viewLifecycleOwner, Observer {
-            textView_end_point.text = it.name
-        })
+        routeViewModel.endPlace.observe(
+            viewLifecycleOwner,
+            Observer {
+                textView_end_point.text = "Направляйтесь к ${it.name}"
+            }
+        )
     }
 
     override fun onAttach(context: Context) {
@@ -68,7 +63,7 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
             button_start_route.isEnabled = it
         })
 
-        listOf(radio_button_car, radio_button_walking).forEach {
+        listOf(button_car, button_walking).forEach {
             it.isChecked = it.id == routeViewModel.lastRadioState
         }
     }

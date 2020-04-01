@@ -9,15 +9,7 @@
     <color name="colorSecondaryDark">#c67100</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="step0">#00BCD4</color>
-    <color name="step1">#009688</color>
-    <color name="step2">#4CAF50</color>
-    <color name="step3">#8BC34A</color>
-    <color name="step4">#CDDC39</color>
-    <color name="step5">#FFEB3B</color>
-    <color name="step6">#FFC107</color>
-    <color name="step7">#FF9800</color>
-    <color name="step8">#FF5722</color>
+    <color name="polylineColor">#BFc67100</color>
 
 
     <color name="markerColor">#5A4DFF</color>
