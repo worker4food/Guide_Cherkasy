@@ -22,7 +22,7 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen), View.OnCli
     }
 
     override fun onClick(view: View) {
-        if (NetHelper.getInstance(application = activity!!.application).isOverWifi) {
+        if (NetHelper.getInstance(application = activity!!.application).isOnline) {
             startScreenViewModel.select(view)
         }
         Snackbar.make(

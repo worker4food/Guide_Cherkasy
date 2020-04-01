@@ -65,7 +65,7 @@ class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
     }
 
     override fun onClick(place: Place) {
-        if (NetHelper.getInstance(application = activity!!.application).isOverWifi) {
+        if (NetHelper.getInstance(application = activity!!.application).isOnline) {
             listViewModel.list(this.requireView(), place)
         }
         val snackbar =
