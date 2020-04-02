@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/startScreenFragment">
+
+    <fragment
+        android:id="@+id/startScreenFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.startscreen.StartScreenFragment"
+        android:label="Cherkasy"
+        tools:layout="@layout/fragment_start_screen">
+        <action
+            android:id="@+id/action_startScreenFragment_to_placesListFragment"
+            app:destination="@id/placesListFragment" />
+        <action
+            android:id="@+id/action_startScreenFragment_to_routesFragment"
+            app:destination="@id/routesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/placesListFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.placeslist.PlacesListFragment"
+        android:label="Что посмотреть"
+        tools:layout="@layout/fragment_places_list">
+        <action
+            android:id="@+id/action_placesListFragment_to_placeDetailFragment"
+            app:destination="@id/placeDetailFragment"
+            app:launchSingleTop="false" />
+        <action
+            android:id="@+id/action_placesListFragment_to_placeMapFragment"
+            app:destination="@id/placeMapFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/placeDetailFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.placedetail.PlaceDetailFragment"
+        android:label="{placeTitle}">
+        <action
+            android:id="@+id/action_placeDetailFragment_to_placeMapFragment"
+            app:destination="@id/placeMapFragment" />
+        <argument
+            android:name="place"
+            app:argType="com.geekhub_android_2019.cherkasyguide.models.Place" />
+        <argument
+            android:name="placeTitle"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/placeMapFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.placemap.PlaceMapFragment"
+        android:label="Карта Черкасс">
+        <argument
+            android:name="places"
+            app:argType="com.geekhub_android_2019.cherkasyguide.models.Places" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/routeMapFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.routemap.RouteMapFragment"
+        android:label="{routeTitle}">
+        <argument
+            android:name="places"
+            app:argType="com.geekhub_android_2019.cherkasyguide.models.Places" />
+        <argument
+            android:name="routeTitle"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/routeEditFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.routeedit.RouteEditFragment"
+        android:label="Создать маршрут" />
+
+    <fragment
+        android:id="@+id/routesFragment"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.routeslist.RouteListFragment"
+        android:label="Маршруты"
+        tools:layout="@layout/fragment_routes_list">
+        <action
+            android:id="@+id/action_to_routeEditFragment"
+            app:destination="@id/routeEditFragment" />
+        <action
+            android:id="@+id/action_toRouteMap"
+            app:destination="@id/routeMapFragment" />
+        <action
+            android:id="@+id/action_toPlaceDetail"
+            app:destination="@id/placeDetailFragment" />
+    </fragment>
+
+</navigation>

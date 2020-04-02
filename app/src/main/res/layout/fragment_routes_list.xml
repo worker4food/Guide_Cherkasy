@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginVertical="8dp">
+
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/routeList"
+        android:name="com.geekhub_android_2019.cherkasyguide.ui.route.RoutesFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".ui.routeslist.RouteListFragment"
+        tools:listitem="@layout/fragment_routes_list_item" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/routeListSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:indeterminate="true">
+
+        <ProgressBar
+            android:id="@+id/progress_item_"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorSecondaryLight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

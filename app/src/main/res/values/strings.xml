@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Cherkasy Guide</string>
+    <string name="home">Главная</string>
+    <string name="what_to_see">Что посмотреть</string>
+    <string name="routes">Маршруты</string>
+    <string name="map">Карта</string>
+    <string name="user_route">Мой маршрут</string>
+
+    <string name="dummy">Dummy</string>
+    <string name="create_new_route">Создать новый маршрут</string>
+    <string name="edit_user_route">Изменить мой маршрут</string>
+    <string name="logo">logo</string>
+    <string name="button_car">Машиной</string>
+    <string name="button_walking">Пешком</string>
+    <string name="button_bus">Автобусом</string>
+    <string name="error_no_network">Нет интернета</string>
+    <string name="action_try_again">Еще разок</string>
+    <string name="show_route_map_button">Карта</string>
+    <plurals name="to_long_route">
+        <item quantity="one">"Маршрут не может содержать больше %d точки"</item>
+        <item quantity="other">"Маршрут не может содержать больше %d точек"</item>
+    </plurals>
+    <string name="to_short_route">Маршрут должен содержать не менее двух точек</string>
+    <string name="action_ok">OK</string>
+    <string name="move_to">Направляйтесь к %s</string>
+</resources>
