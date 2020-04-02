@@ -29,7 +29,7 @@ class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
             }
         })
 
-        vm.observeWarnings(lifecycleScope) {
+        vm.warn.observe(lifecycleScope) {
             val msg = when (it) {
                 Messages.ROUTE_TO_LONG -> resources.getQuantityString(
                     R.plurals.to_long_route,

@@ -29,7 +29,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
             it?.let(::assembleView)
         })
 
-        vm.observeWarnings(lifecycleScope) {
+        vm.warn.observe(lifecycleScope) {
             val msg = when (it) {
                 Messages.ROUTE_TO_SHORT -> resources.getString(R.string.to_short_route)
                 Messages.ROUTE_TO_LONG -> resources.getQuantityString(
