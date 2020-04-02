@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.common.verticalGridCarousel
@@ -29,7 +28,7 @@ class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
             }
         })
 
-        vm.warn.observe(lifecycleScope) {
+        vm.warn.observe(viewLifecycleOwner) {
             val msg = when (it) {
                 Messages.ROUTE_TO_LONG -> resources.getQuantityString(
                     R.plurals.to_long_route,

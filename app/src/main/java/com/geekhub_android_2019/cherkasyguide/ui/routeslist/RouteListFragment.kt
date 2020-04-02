@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.*
@@ -29,7 +28,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
             it?.let(::assembleView)
         })
 
-        vm.warn.observe(lifecycleScope) {
+        vm.warn.observe(viewLifecycleOwner) {
             val msg = when (it) {
                 Messages.ROUTE_TO_SHORT -> resources.getString(R.string.to_short_route)
                 Messages.ROUTE_TO_LONG -> resources.getQuantityString(
