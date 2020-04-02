@@ -22,8 +22,5 @@
     </plurals>
     <string name="to_short_route">Маршрут должен содержать не менее двух точек</string>
     <string name="action_ok">OK</string>
-    <string name="start">Начать</string>
-    <string name="move_from">Направляйтесь от</string>
-    <string name="move_to">до</string>
-    <string name="next">Далее</string>
+    <string name="move_to">Направляйтесь к %s</string>
 </resources>

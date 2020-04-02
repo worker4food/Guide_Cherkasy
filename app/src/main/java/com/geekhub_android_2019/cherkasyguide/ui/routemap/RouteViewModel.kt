@@ -20,8 +20,8 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
     private var _endPlace = MutableLiveData<Place>()
     val endPlace = _endPlace
 
-    private var _lastRadioState = R.id.button_car
-    val lastRadioState get() = _lastRadioState
+    private var _lastRadioState = MutableLiveData<Int> (R.id.button_car)
+    val lastRadioState: LiveData<Int> = _lastRadioState
 
     private val _typeOfRoute = MutableLiveData<String>("driving")
     val typeOfRoute: LiveData<String> = _typeOfRoute
@@ -91,11 +91,11 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
     }
 
     fun selectTypeOfRoute(view: View) {
-        _lastRadioState = view.id
+        _lastRadioState.value = view.id
         when (view.id) {
-            R.id.button_car ->
+            R.id.button_car -> {
                 _typeOfRoute.value = "driving"
-
+            }
             R.id.button_walking ->
                 _typeOfRoute.value = "walking"
         }

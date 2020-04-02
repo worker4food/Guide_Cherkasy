@@ -1,7 +1,7 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routemap
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.geekhub_android_2019.cherkasyguide.R
+import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import kotlinx.android.synthetic.main.fragment_map.map_view
@@ -20,14 +21,13 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
 
     private val args: RouteMapFragmentArgs by navArgs()
     private val routeViewModel: RouteViewModel by activityViewModels()
+
     var mCount = 0
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         map_view.onCreate(savedInstanceState)
-        map_view.onResume()
 
         map_view.getMapAsync(this)
 
@@ -39,13 +39,6 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
             button_walking.visibility = GONE
             mCount++
         }
-
-        routeViewModel.endPlace.observe(
-            viewLifecycleOwner,
-            Observer {
-                textView_end_point.text = "Направляйтесь к ${it.name}"
-            }
-        )
     }
 
     override fun onAttach(context: Context) {
@@ -63,24 +56,21 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
             button_start_route.isEnabled = it
         })
 
-        listOf(button_car, button_walking).forEach {
-            it.isChecked = it.id == routeViewModel.lastRadioState
-        }
-    }
+        routeViewModel.lastRadioState.observe(this, Observer {
+            listOf(button_car, button_walking).forEach {
+                if (it.id == routeViewModel.lastRadioState.value) {
+                    it.setBackgroundColor(activity!!.applicationContext.getColor(R.color.colorSecondaryLight))
+                } else {
+                    it.setBackgroundColor(Color.WHITE)
+                }
+            }
+        })
 
-    override fun onResume() {
-        map_view.onResume()
-        super.onResume()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        map_view.onDestroy()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        map_view.onLowMemory()
+        routeViewModel.endPlace.observe(this, Observer<Place> {
+            if (it != null) {
+                textView_end_point.text = getString(R.string.move_to, it.name)
+            }
+        })
     }
 
     override fun onClick(view: View) {
