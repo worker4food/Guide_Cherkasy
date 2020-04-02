@@ -122,6 +122,14 @@ dependencies {
     implementation 'com.airbnb.android:epoxy:3.9.0'
     kapt 'com.airbnb.android:epoxy-processor:3.9.0'
 
+    //Tests
+    testImplementation "org.mockito:mockito-core:3.1.0"
+    androidTestImplementation "org.mockito:mockito-android:3.1.0"
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
+
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+
     //koin
     implementation "org.koin:koin-core:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
