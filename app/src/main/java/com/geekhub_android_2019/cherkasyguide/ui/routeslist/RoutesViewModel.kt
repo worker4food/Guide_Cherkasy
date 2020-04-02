@@ -35,13 +35,13 @@ class RoutesViewModel : BaseViewModel<Messages>() {
         }
     }
 
-    fun viewRouteMap(navController: NavController, places: List<Place>) {
+    fun viewRouteMap(navController: NavController, places: List<Place>, routeName: String) {
         when {
             places.size < 2 -> warn(Messages.ROUTE_TO_SHORT)
             places.size > Limits.MAX_PLACES -> warn(Messages.ROUTE_TO_LONG)
             else -> {
                 val arg = Places().apply { addAll(places) }
-                RouteListFragmentDirections.actionToRouteMap(arg).also {
+                RouteListFragmentDirections.actionToRouteMap(arg, routeName).also {
                     navController.navigate(it)
                 }
             }

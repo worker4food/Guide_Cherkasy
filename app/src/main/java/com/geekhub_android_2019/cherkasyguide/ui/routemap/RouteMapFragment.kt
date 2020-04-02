@@ -1,13 +1,16 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routemap
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.geekhub_android_2019.cherkasyguide.R
+import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import kotlinx.android.synthetic.main.fragment_map.map_view
@@ -15,20 +18,27 @@ import kotlinx.android.synthetic.main.fragment_map_route.*
 
 class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallback,
     View.OnClickListener {
+
     private val args: RouteMapFragmentArgs by navArgs()
     private val routeViewModel: RouteViewModel by activityViewModels()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    var mCount = 0
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         map_view.onCreate(savedInstanceState)
-        map_view.onResume()
 
         map_view.getMapAsync(this)
 
-        radio_button_walking.setOnClickListener(this)
-        radio_button_bus.setOnClickListener(this)
-        radio_button_car.setOnClickListener(this)
+        button_walking.setOnClickListener(this)
+        button_car.setOnClickListener(this)
+        button_start_route.setOnClickListener {
+            routeViewModel.buttonStartClick(mCount, it)
+            button_car.visibility = GONE
+            button_walking.visibility = GONE
+            mCount++
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -38,9 +48,26 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
 
     override fun onMapReady(googleMap: GoogleMap) {
         routeViewModel.createMap(googleMap)
-//        routeViewModel.drawRoute()
         routeViewModel.typeOfRoute.observe(this, Observer {
             routeViewModel.drawRoute(it)
+        })
+
+        routeViewModel.statusDrawButton.observe(this, Observer {
+            button_start_route.isEnabled = it
+        })
+
+        routeViewModel.lastRadioState.observe(this, Observer {
+            listOf(button_car, button_walking).forEach {
+                if (it.id == routeViewModel.lastRadioState.value) {
+                    it.setBackgroundColor(activity!!.applicationContext.getColor(R.color.colorSecondaryLight))
+                } else {
+                    it.setBackgroundColor(Color.WHITE)
+                }
+            }
+        })
+
+        routeViewModel.endPlace.observe(this, Observer<Place> {
+            textView_end_point.text = getString(R.string.move_to, it.name)
         })
     }
 

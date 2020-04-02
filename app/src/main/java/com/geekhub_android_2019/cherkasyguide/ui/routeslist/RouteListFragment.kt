@@ -49,7 +49,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
                 routeHeader {
                     id("route-header", route.id)
                     name(route.name!!)
-                    listener { _ -> vm.viewRouteMap(controller, route.places) }
+                    listener { _ -> vm.viewRouteMap(controller, route.places, route.name) }
                 }
 
                 carousel {
@@ -71,7 +71,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
                 routeHeader {
                     id("user-route-header", state.userRoute!!.id)
                     name(getString(R.string.user_route))
-                    listener { _ -> vm.viewRouteMap(controller, state.userRoute.places) }
+                    listener { _ -> vm.viewRouteMap(controller, state.userRoute.places, getString(R.string.user_route)) }
                 }
 
                 carousel {
