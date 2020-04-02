@@ -23,7 +23,7 @@ class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
 
         vm.state.observe(viewLifecycleOwner, Observer {
             it?.let { (places, userRoute) ->
-                assembleViewModel(places, userRoute ?: UserRoute())
+                assembleViewModel(places, userRoute)
             }
         })
 
@@ -42,12 +42,12 @@ class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
         }
     }
 
-    private fun assembleViewModel(places: List<Place>, userRoute: UserRoute) {
-        val selected = userRoute.places.toSet()
+    private fun assembleViewModel(places: List<Place>, userRoute: UserRoute?) {
+        val selected = userRoute?.places?.toSet() ?: setOf()
 
         placesList.withModels {
             verticalGridCarousel {
-                id("user-route-places", userRoute.id)
+                id("user-route-places")
 
                 places.map { place ->
                     PlaceItemModel_()
