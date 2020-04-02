@@ -2,7 +2,7 @@ package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
 import androidx.lifecycle.*
 import androidx.navigation.NavController
-import com.geekhub_android_2019.cherkasyguide.common.EventChannell
+import com.geekhub_android_2019.cherkasyguide.common.EventChannel
 import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.flowOn
 class RoutesViewModel : ViewModel() {
 
     private val repo = Repository()
-    val warn = EventChannell<Messages>()
+    val warn = EventChannel<Messages>()
 
     val routes: LiveData<ViewState> =
         combine(repo.getRoutes(), repo.getUserRouteOrNUll()) { routes, userRoute ->

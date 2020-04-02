@@ -8,7 +8,7 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 
-class EventChannell<M> : BroadcastChannel<M> by BroadcastChannel(1) {
+class EventChannel<M> : BroadcastChannel<M> by BroadcastChannel(1) {
 
     fun observe(scope: CoroutineScope, fn: (M) -> Unit) = scope.launch(Dispatchers.Main) {
         openSubscription().consumeEach(fn)
