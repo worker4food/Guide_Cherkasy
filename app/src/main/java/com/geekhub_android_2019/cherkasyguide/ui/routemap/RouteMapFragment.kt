@@ -67,10 +67,23 @@ class RouteMapFragment : Fragment(R.layout.fragment_map_route), OnMapReadyCallba
         })
 
         routeViewModel.endPlace.observe(this, Observer<Place> {
-            if (it != null) {
-                textView_end_point.text = getString(R.string.move_to, it.name)
-            }
+            textView_end_point.text = getString(R.string.move_to, it.name)
         })
+    }
+
+    override fun onResume() {
+        map_view.onResume()
+        super.onResume()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        map_view.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        map_view.onLowMemory()
     }
 
     override fun onClick(view: View) {
