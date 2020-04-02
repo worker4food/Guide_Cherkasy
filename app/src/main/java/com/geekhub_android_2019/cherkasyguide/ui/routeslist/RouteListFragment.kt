@@ -45,26 +45,6 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
 
     private fun assembleView(state: ViewState) {
         routeList.withModels {
-            state.routes.forEach { route ->
-                routeHeader {
-                    id("route-header", route.id)
-                    name(route.name!!)
-                    listener { _ -> vm.viewRouteMap(controller, route.places, route.name) }
-                }
-
-                carousel {
-                    id("place-thumbs", route.id)
-
-                    route.places.map { place ->
-                        PlaceCardModel_()
-                            .id("place-thumb", route.id, place.id)
-                            .title(place.name!!)
-                            .imageUrl(place.photoSmallUrl!!)
-                            .listener { _ -> vm.viewPlace(controller, place) }
-                    }.also { models(it) }
-                }
-            }
-
             val userRouteExists = state.userRoute?.places?.isNotEmpty() ?: false
 
             if (userRouteExists) {
@@ -95,7 +75,26 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
                 titleId(buttonTextId)
                 listener { _ -> vm.createEditRoute(controller) }
             }
-        }
 
+            state.routes.forEach { route ->
+                routeHeader {
+                    id("route-header", route.id)
+                    name(route.name!!)
+                    listener { _ -> vm.viewRouteMap(controller, route.places, route.name) }
+                }
+
+                carousel {
+                    id("place-thumbs", route.id)
+
+                    route.places.map { place ->
+                        PlaceCardModel_()
+                            .id("place-thumb", route.id, place.id)
+                            .title(place.name!!)
+                            .imageUrl(place.photoSmallUrl!!)
+                            .listener { _ -> vm.viewPlace(controller, place) }
+                    }.also { models(it) }
+                }
+            }
+        }
     }
 }
