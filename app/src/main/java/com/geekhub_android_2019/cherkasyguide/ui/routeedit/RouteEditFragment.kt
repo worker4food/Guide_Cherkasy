@@ -22,12 +22,14 @@ class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
         super.onViewCreated(view, savedInstanceState)
 
         vm.state.observe(viewLifecycleOwner, Observer {
+            routeEditSpinner.visibility = View.GONE
+
             it?.let { (places, userRoute) ->
-                assembleViewModel(places, userRoute ?: UserRoute())
+                assembleViewModel(places, userRoute)
             }
         })
 
-        vm.observeWarnings(lifecycleScope) {
+        vm.warn.observe(lifecycleScope) {
             val msg = when (it) {
                 Messages.ROUTE_TO_LONG -> resources.getQuantityString(
                     R.plurals.to_long_route,
@@ -42,12 +44,12 @@ class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
         }
     }
 
-    private fun assembleViewModel(places: List<Place>, userRoute: UserRoute) {
-        val selected = userRoute.places.toSet()
+    private fun assembleViewModel(places: List<Place>, userRoute: UserRoute?) {
+        val selected = userRoute?.places?.toSet() ?: setOf()
 
         placesList.withModels {
             verticalGridCarousel {
-                id("user-route-places", userRoute.id)
+                id("user-route-places")
 
                 places.map { place ->
                     PlaceItemModel_()

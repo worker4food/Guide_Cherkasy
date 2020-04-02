@@ -1,10 +1,8 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.navigation.NavController
-import com.geekhub_android_2019.cherkasyguide.common.BaseViewModel
+import com.geekhub_android_2019.cherkasyguide.common.EventChannell
 import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
@@ -14,9 +12,10 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 
-class RoutesViewModel : BaseViewModel<Messages>() {
+class RoutesViewModel : ViewModel() {
 
     private val repo = Repository()
+    val warn = EventChannell<Messages>()
 
     val routes: LiveData<ViewState> =
         combine(repo.getRoutes(), repo.getUserRouteOrNUll()) { routes, userRoute ->
@@ -37,8 +36,8 @@ class RoutesViewModel : BaseViewModel<Messages>() {
 
     fun viewRouteMap(navController: NavController, places: List<Place>, routeName: String) {
         when {
-            places.size < 2 -> warn(Messages.ROUTE_TO_SHORT)
-            places.size > Limits.MAX_PLACES -> warn(Messages.ROUTE_TO_LONG)
+            places.size < 2 -> warn.offer(Messages.ROUTE_TO_SHORT)
+            places.size > Limits.MAX_PLACES -> warn.offer(Messages.ROUTE_TO_LONG)
             else -> {
                 val arg = Places().apply { addAll(places) }
                 RouteListFragmentDirections.actionToRouteMap(arg, routeName).also {
