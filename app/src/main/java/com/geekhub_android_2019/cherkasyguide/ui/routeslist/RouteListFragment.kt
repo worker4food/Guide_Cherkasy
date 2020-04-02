@@ -24,6 +24,8 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
         super.onViewCreated(view, savedInstanceState)
 
         vm.routes.observe(viewLifecycleOwner, Observer {
+            routeListSpinner.visibility = View.GONE
+
             it?.let(::assembleView)
         })
 

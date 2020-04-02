@@ -22,6 +22,8 @@ class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
         super.onViewCreated(view, savedInstanceState)
 
         vm.state.observe(viewLifecycleOwner, Observer {
+            routeEditSpinner.visibility = View.GONE
+
             it?.let { (places, userRoute) ->
                 assembleViewModel(places, userRoute)
             }
