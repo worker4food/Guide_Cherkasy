@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_routes_list.*
 
 class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
 
-    private val vm by activityViewModels<RoutesViewModel>()
+    private val vm by activityViewModels<RouteListViewModel>()
     private val controller: NavController
         get() = findNavController()
 
