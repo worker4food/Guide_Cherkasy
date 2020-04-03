@@ -23,4 +23,5 @@
     <string name="to_short_route">Маршрут должен содержать не менее двух точек</string>
     <string name="action_ok">OK</string>
     <string name="move_to">Направляйтесь к %s</string>
+    <string name="action_clear_route">Очистить маршрут</string>
 </resources>

@@ -39,4 +39,8 @@ class RouteEditViewModel : ViewModel() {
             UserRoute(id, newPlaces)
                 .also { repo.updateUserRoute(it) }
     }
+
+    fun clearUserRoute() = viewModelScope.launch {
+        repo.clearUserRoute()
+    }
 }
