@@ -10,6 +10,7 @@ import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.common.verticalGridCarousel
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.UserRoute
+import com.geekhub_android_2019.cherkasyguide.ui.models.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_routeedit.*
 

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.*
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.common.Limits
+import com.geekhub_android_2019.cherkasyguide.ui.models.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_routes_list.*
 
@@ -71,7 +72,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
             val buttonTextId =
                 if (userRouteExists) R.string.edit_user_route else R.string.create_new_route
 
-            createEditRoute {
+            textButton {
                 id("create-edit-user-route")
                 titleId(buttonTextId)
                 listener { _ -> vm.createEditRoute(controller) }
