@@ -37,6 +37,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
                     Limits.MAX_PLACES,
                     Limits.MAX_PLACES
                 )
+                Messages.NO_NETWORK -> resources.getString(R.string.error_no_network)
             }
 
             Snackbar.make(requireView(), msg, Snackbar.LENGTH_LONG)
