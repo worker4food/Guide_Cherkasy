@@ -2,7 +2,7 @@ package com.geekhub_android_2019.cherkasyguide.ui.routeedit
 
 import androidx.lifecycle.*
 import com.geekhub_android_2019.cherkasyguide.common.Limits
-import com.geekhub_android_2019.cherkasyguide.common.EventChannell
+import com.geekhub_android_2019.cherkasyguide.common.EventChannel
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.UserRoute
@@ -16,7 +16,7 @@ class RouteEditViewModel : ViewModel() {
 
     private val repo: Repository = Repository()
 
-    val warn = EventChannell<Messages>()
+    val warn = EventChannel<Messages>()
 
     val state: LiveData<ViewState> =
         combine(repo.getPlaces(), repo.getUserRouteOrNUll()) { places, userRoute ->
