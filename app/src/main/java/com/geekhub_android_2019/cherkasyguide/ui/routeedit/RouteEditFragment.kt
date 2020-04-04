@@ -3,7 +3,6 @@ package com.geekhub_android_2019.cherkasyguide.ui.routeedit
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.common.verticalGridCarousel
@@ -12,10 +11,11 @@ import com.geekhub_android_2019.cherkasyguide.models.UserRoute
 import com.geekhub_android_2019.cherkasyguide.ui.models.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_routeedit.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
 
-    private val vm by activityViewModels<RouteEditViewModel>()
+    private val vm by sharedViewModel<RouteEditViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

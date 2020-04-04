@@ -3,7 +3,6 @@ package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.*
@@ -12,10 +11,11 @@ import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.ui.models.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_routes_list.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
 
-    private val vm by activityViewModels<RouteListViewModel>()
+    private val vm by sharedViewModel<RouteListViewModel>() //activityViewModels<RouteListViewModel>()
     private val controller: NavController
         get() = findNavController()
 

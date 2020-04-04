@@ -1,6 +1,5 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
-import android.app.Application
 import androidx.lifecycle.*
 import androidx.navigation.NavController
 import com.geekhub_android_2019.cherkasyguide.common.EventChannel
@@ -14,11 +13,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 
-class RouteListViewModel(app: Application) : AndroidViewModel(app) {
+class RouteListViewModel(private val netHelper: NetHelper) : ViewModel() {
 
     private val repo = Repository()
-
-    private val netHelper = NetHelper(app)
 
     val warn = EventChannel<Messages>()
 
