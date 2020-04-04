@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.common.verticalGridCarousel
@@ -23,13 +22,13 @@ class RouteEditFragment : Fragment(R.layout.fragment_routeedit) {
 
         setHasOptionsMenu(true)
 
-        vm.state.observe(viewLifecycleOwner, Observer {
+        vm.state.observe(viewLifecycleOwner) {
             routeEditSpinner.visibility = View.GONE
 
             it?.let { (places, userRoute) ->
                 assembleViewModel(places, userRoute)
             }
-        })
+        }
 
         vm.warn.observe(viewLifecycleOwner) {
             val msg = when (it) {

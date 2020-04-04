@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.*
@@ -23,11 +22,11 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.routes.observe(viewLifecycleOwner, Observer {
+        vm.routes.observe(viewLifecycleOwner) {
             routeListSpinner.visibility = View.GONE
 
             it?.let(::assembleView)
-        })
+        }
 
         vm.warn.observe(viewLifecycleOwner) {
             val msg = when (it) {
