@@ -10,12 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.*
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.common.Limits
+import com.geekhub_android_2019.cherkasyguide.ui.models.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_routes_list.*
 
 class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
 
-    private val vm by activityViewModels<RoutesViewModel>()
+    private val vm by activityViewModels<RouteListViewModel>()
     private val controller: NavController
         get() = findNavController()
 
@@ -36,6 +37,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
                     Limits.MAX_PLACES,
                     Limits.MAX_PLACES
                 )
+                Messages.NO_NETWORK -> resources.getString(R.string.error_no_network)
             }
 
             Snackbar.make(requireView(), msg, Snackbar.LENGTH_LONG)
@@ -71,7 +73,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
             val buttonTextId =
                 if (userRouteExists) R.string.edit_user_route else R.string.create_new_route
 
-            createEditRoute {
+            textButton {
                 id("create-edit-user-route")
                 titleId(buttonTextId)
                 listener { _ -> vm.createEditRoute(controller) }

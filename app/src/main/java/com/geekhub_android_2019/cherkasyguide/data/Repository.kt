@@ -58,6 +58,9 @@ class Repository {
             .await()
     }
 
+    suspend fun clearUserRoute(): Unit =
+        updateUserRoute(UserRoute(FirebaseAuth.getInstance().uid!!, emptyList()))
+
     private fun fetchPlaces(placeIds_: List<String>): Flow<List<Place>> {
         val placeIds = placeIds_.take(Limits.MAX_PLACES)
 
