@@ -60,6 +60,7 @@ dependencies {
     def retrofit_version = '2.7.2'
     def moshi_version = '1.9.2'
     def play_services_version = '17.0.0'
+    def koin_version = '2.1.5'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -119,6 +120,9 @@ dependencies {
     //EPOXY
     implementation 'com.airbnb.android:epoxy:3.9.0'
     kapt 'com.airbnb.android:epoxy-processor:3.9.0'
-    
 
+    //koin
+    implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    testImplementation "org.koin:koin-test:$koin_version"
 }
