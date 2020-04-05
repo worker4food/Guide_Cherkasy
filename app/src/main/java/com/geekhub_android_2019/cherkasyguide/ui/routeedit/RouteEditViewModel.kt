@@ -18,13 +18,18 @@ class RouteEditViewModel : ViewModel() {
 
     val warn = EventChannel<Messages>()
 
-    val state: LiveData<ViewState> =
-        combine(repo.getPlaces(), repo.getUserRouteOrNUll()) { places, userRoute ->
-            ViewState(places, userRoute)
-        }
-        .flowOn(Dispatchers.IO)
-        .conflate()
-        .asLiveData(viewModelScope.coroutineContext)
+    val state: LiveData<ViewState> by lazy {
+        val placesF = repo.getPlaces().conflate()
+        val userRouteF = repo.getUserRouteOrNUll().conflate()
+
+        placesF
+            .combine(userRouteF) { places, userRoute ->
+                ViewState(places, userRoute)
+            }
+            .flowOn(Dispatchers.IO)
+            .conflate()
+            .asLiveData(viewModelScope.coroutineContext)
+    }
 
     fun toggleCheck(place: Place) = viewModelScope.launch(Dispatchers.IO) {
         val (id, selected) = state.value?.userRoute ?: UserRoute()
