@@ -17,7 +17,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 
-@Suppress("DEPRECATION")
+/*@Suppress("DEPRECATION")
 @RunWith(MockitoJUnitRunner.Silent::class)
 class NetHelperTest {
 
@@ -49,7 +49,7 @@ class NetHelperTest {
 
 }
 
-/*@Test
+*//*@Test
 fun testNetworkStateMeteredNotRoaming() {
     val networkInfo: NetworkInfo = mock(NetworkInfo::class.java)
     `when`(networkInfo.isConnected).thenReturn(true)
@@ -60,7 +60,7 @@ fun testNetworkStateMeteredNotRoaming() {
     `when`(connectivityManager.activeNetworkInfo).thenReturn(networkInfo)
     val context: Context = mock(MockContext::class.java)
     `when`(context.getSystemService(Context.CONNECTIVITY_SERVICE))
-        .thenReturn(connectivityManager) }*/
+        .thenReturn(connectivityManager) }*//*
 
 
 @Test
@@ -83,4 +83,4 @@ fun testNetworkStateMeteredNotRoaming() {
 
     
 
-}
+}*/
