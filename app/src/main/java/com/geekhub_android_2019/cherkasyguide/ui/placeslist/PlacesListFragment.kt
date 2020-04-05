@@ -51,12 +51,11 @@ class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         listViewModel.places.observe(viewLifecycleOwner, Observer<List<Place>> {
             mAdapter = PlacesAdapter(listViewModel.places.value!!, clickListener = this)
             recyclerView.apply {
                 adapter = mAdapter
-                layoutManager = LinearLayoutManager(activity)
-                scrollToPosition(0)
                 visibility = View.VISIBLE
             }
             mAdapter.notifyDataSetChanged()
@@ -71,7 +70,7 @@ class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
         val snackbar =
             Snackbar.make(
                 requireView(),
-                "Нет подключения к Интернету. Повторите попытку позже",
+                R.string.error_no_network,
                 Snackbar.LENGTH_LONG
             )
         snackbar.anchorView = bottom_nav_view
