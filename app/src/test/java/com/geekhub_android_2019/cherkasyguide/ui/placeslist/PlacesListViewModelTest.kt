@@ -16,34 +16,39 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 import androidx.lifecycle.LiveData
+import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.nhaarman.mockitokotlin2.doReturn
+import kotlinx.coroutines.flow.Flow
+import org.junit.Rule
+import org.mockito.Mockito.`when`
+
 
 @RunWith(MockitoJUnitRunner.Silent::class)
 class PlacesListViewModelTest {
 
     @Mock
     lateinit var repo: Repository
-    lateinit var placesListViewModel: PlacesListViewModel
+    lateinit var fakePlace: Flow<List<Place>>
 
 
     @Before
     fun setUp() {
         repo = mock()
-        placesListViewModel = mock()
+        fakePlace = mock()
     }
 
     @Test
     fun fetchGetPlaces() {
-        val place:Place = mock{
-            on{ fakePlace} doReturn placesListViewModel.places
-        }
+        // GIVEN
+        `when`(repo.getPlaces()).thenReturn(fakePlace)
+
+        // WHEN
+
+        // THEN
+        Mockito.verify(repo).getPlaces()
+
+
     }
 
-    companion object {
-        val fakePlace = Place(
-            name = "Fake Place",
-            photoSmallUrl = "Fake photo"
-        )
-    }
 }
 
