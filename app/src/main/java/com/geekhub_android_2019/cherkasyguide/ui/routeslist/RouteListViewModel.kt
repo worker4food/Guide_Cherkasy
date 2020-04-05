@@ -19,16 +19,17 @@ class RouteListViewModel(private val netHelper: NetHelper) : ViewModel() {
 
     val warn = EventChannel<Messages>()
 
-    val routes: LiveData<ViewState> =
-        combine(repo.getRoutes(), repo.getUserRouteOrNUll()) { routes, userRoute ->
-            ViewState(
-                routes,
-                userRoute
-            )
-        }
-        .flowOn(Dispatchers.IO)
-        .conflate()
-        .asLiveData(viewModelScope.coroutineContext)
+    val routes: LiveData<ViewState> by lazy {
+        val routesF = repo.getRoutes().conflate()
+        val userRouteF = repo.getUserRouteOrNUll().conflate()
+
+        routesF
+            .combine(userRouteF) { routes, userRoute ->
+                ViewState(routes, userRoute)
+            }
+            .flowOn(Dispatchers.IO)
+            .asLiveData(viewModelScope.coroutineContext)
+    }
 
     fun createEditRoute(navController: NavController) {
         if (netHelper.isOnline) RouteListFragmentDirections.actionToRouteEditFragment()
