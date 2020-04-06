@@ -8,9 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: dcodeIO/setup-node-nvm@master
+      - uses: actions/setup-node@v1
         with:
-          node-version: lts/*
+          node-version: '12.x'
 
       - name: install firebase-tools
         run: |
