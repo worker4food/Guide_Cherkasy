@@ -7,7 +7,12 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-#      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: dcodeIO/setup-node-nvm@master
+        with:
+          node-version: lts/*
 
-      - name: build and run tests
-        run: firebase
+      - name: install firebase-tools
+        run: |
+          npm -i -g firebase-tools
+          firebase --version
