@@ -14,5 +14,5 @@ jobs:
 
       - name: install firebase-tools
         run: |
-          npm -i -g firebase-tools
+          npm i -g firebase-tools
           firebase --version
