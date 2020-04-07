@@ -15,10 +15,12 @@ import kotlinx.coroutines.flow.flowOn
 
 class PlacesListViewModel(repo: Repository) : ViewModel() {
 
-    val places: LiveData<List<Place>> = repo.getPlaces()
-        .flowOn(Dispatchers.IO)
-        .conflate()
-        .asLiveData(viewModelScope.coroutineContext)
+    val places: LiveData<List<Place>> by lazy {
+        repo.getPlaces()
+            .flowOn(Dispatchers.IO)
+            .conflate()
+            .asLiveData(viewModelScope.coroutineContext)
+    }
 
     fun list(view: View, place: Place) {
         PlacesListFragmentDirections.actionPlacesListFragmentToPlaceDetailFragment(
