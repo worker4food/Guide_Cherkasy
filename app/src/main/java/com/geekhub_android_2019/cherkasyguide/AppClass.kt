@@ -26,7 +26,7 @@ class AppClass : Application() {
             androidLogger(if(BuildConfig.DEBUG) Level.DEBUG else Level.INFO)
             androidContext(this@AppClass)
 
-            modules(appModules)
+            modules(appModules + firebaseModule)
         }
     }
 }
