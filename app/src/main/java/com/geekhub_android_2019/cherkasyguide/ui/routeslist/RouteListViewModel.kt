@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 
-class RouteListViewModel(private val netHelper: NetHelper) : ViewModel() {
-
-    private val repo = Repository()
+class RouteListViewModel(
+    private val repo: Repository,
+    private val netHelper: NetHelper) : ViewModel() {
 
     val warn = EventChannel<Messages>()
 

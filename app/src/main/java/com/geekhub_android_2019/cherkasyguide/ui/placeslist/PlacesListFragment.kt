@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -19,12 +18,12 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_places_list.*
 import kotlinx.android.synthetic.main.fragment_places_list.view.*
-
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
 
     private lateinit var mAdapter: PlacesAdapter
-    private val listViewModel by activityViewModels<PlacesListViewModel>()
+    private val listViewModel by sharedViewModel<PlacesListViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
