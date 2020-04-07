@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
-class RouteEditViewModel : ViewModel() {
-
-    private val repo: Repository = Repository()
+class RouteEditViewModel(
+    private val repo: Repository
+) : ViewModel() {
 
     val warn = EventChannel<Messages>()
 

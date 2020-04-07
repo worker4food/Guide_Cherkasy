@@ -11,7 +11,8 @@ import org.koin.core.logger.Level
 
 val appModules = listOf(
     netHelperModule,
-    routesModule
+    repositoryModule,
+    viewModelsModule
 )
 
 class AppClass : Application() {
