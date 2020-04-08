@@ -1,6 +1,5 @@
 package com.geekhub_android_2019.cherkasyguide.utils
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
