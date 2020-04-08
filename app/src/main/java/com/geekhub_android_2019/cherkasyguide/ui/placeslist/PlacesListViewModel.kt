@@ -13,9 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 
-class PlacesListViewModel : ViewModel() {
-
-    private val repo = Repository()
+class PlacesListViewModel( private val repo:Repository = Repository()) : ViewModel() {
 
     val places: LiveData<List<Place>> = repo.getPlaces()
         .flowOn(Dispatchers.IO)
