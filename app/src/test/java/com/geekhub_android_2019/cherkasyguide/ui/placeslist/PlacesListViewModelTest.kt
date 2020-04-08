@@ -5,11 +5,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
+import com.geekhub_android_2019.cherkasyguide.TestCoroutineRule
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import junit.framework.Assert.assertNotNull
-import junit.framework.Assert.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -24,108 +26,57 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner.Silent::class)
 class PlacesListViewModelTest {
 
-    @Rule
-    @JvmField
-    val instantExecutorRule = InstantTaskExecutorRule()
+    lateinit var placesListViewModel: PlacesListViewModel
 
     @Mock
     lateinit var repo: Repository
-    lateinit var placesListViewModel: PlacesListViewModel
 
     @Mock
     lateinit var lifecycleOwner: LifecycleOwner
     var lifecycle: Lifecycle? = null
+
+    @Mock
     lateinit var observer: Observer<List<Place>>
+
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var testCoroutineRule = TestCoroutineRule()
+
+    @Rule
+    @JvmField
+    val instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         lifecycle = LifecycleRegistry(lifecycleOwner)
-        placesListViewModel = PlacesListViewModel(repo)
-        placesListViewModel.places.observeForever(observer)
+        (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        `when`(lifecycleOwner.lifecycle).thenReturn(lifecycle)
     }
 
     @Test
     fun fetchPlacesNull() {
+        val place = listOf<Place>(
+            Place("id", "name", null, "desc", "small photo")
+        )
         `when`(repo.getPlaces())
-            .thenReturn(null)
-        assertNotNull(placesListViewModel.places)
-        assertTrue(placesListViewModel.places.hasObservers())
+            .thenReturn(flowOf(place))
+        placesListViewModel = PlacesListViewModel(repo)
+        assertNotNull(flowOf(placesListViewModel.places))
     }
 
     @Test
-    fun testFetchPlaces() {
-        `when`(repo.getPlaces())
-            .thenReturn(flowOf(List()))
-        placesListViewModel.places
-        verify(observer).onChanged(placesListViewModel.places.value)
+    fun testFetchGetPlaces() {
+        testCoroutineRule.runBlockingTest {
+            val place = listOf<Place>(
+                Place("id", "name", null, "desc", "small photo")
+            )
+            `when`(repo.getPlaces())
+                .thenReturn(flowOf(place))
+            placesListViewModel = PlacesListViewModel(repo)
+            val result = placesListViewModel.places
+            placesListViewModel.places.observeForever(observer)
+            verify(observer).onChanged(result.value)
+        }
     }
-
-
-    /* @Mock
-     lateinit var repo: Repository
-     lateinit var placesListViewModel: PlacesListViewModel
-
-     //    lateinit var lifecycleOwner: LifecycleOwner
- //    var lifecycle: Lifecycle? = null
- //    private val observer: Observer<List<Place>> = mock()
-
-     @Before
-     fun setUp() {
-         repo = mock()
-         placesListViewModel = mock()
-         placesListViewModel = PlacesListViewModel(repo)
- //        placesListViewModel.places.observeForever(observer)
-
-     }
-
-
-     @Test
-     fun moveToTopOfList() {
-         val placesListViewModel = PlacesListViewModel(Repository())
-         val lifecycle = LifecycleRegistry(mockk()).apply {
-             handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
-         }
-
-         // given
-         val observe = mockk<(List<Place>) -> Unit>()
-         every { observe.invoke(Places()) } returns Unit
-         placesListViewModel.places.observe({ lifecycle }, observe)
-
-         // when
-         placesListViewModel.places
-
-         // then
-         verify { observe.invoke(Places()) }
-     }
- */
-
-//@Test
-//fun testsGetPlaces(){
-//    val fakePlaces = Place()
-//    placesListViewModel.places
-//
-//    val captor = ArgumentCaptor.forClass(Places::class.java)
-//    captor.run {
-//        verify(observer).onChanged(capture())
-//        assertEquals(fakePlaces, value)
-//    }
-//}
-
-    /*  @Test
-      fun fetchPlacesNull() {
-          `when`(repo.getPlaces())
-              .thenReturn(null)
-          assertNotNull(placesListViewModel.places)
-          assertTrue(placesListViewModel.places.hasObservers())
-      }
-
-      @Test
-      fun testFetchPlaces() {
-          `when`(repo.getPlaces())
-              .thenReturn(List<Place>)
-          placesListViewModel.places
-          verify(observer).onChanged(placesListViewModel.places.value)
-      }*/
 }
-
