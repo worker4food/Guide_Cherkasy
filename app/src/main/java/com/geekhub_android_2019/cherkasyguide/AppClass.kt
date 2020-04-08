@@ -10,6 +10,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
 val appModules = listOf(
+    dispatchersModule,
     netHelperModule,
     repositoryModule,
     viewModelsModule

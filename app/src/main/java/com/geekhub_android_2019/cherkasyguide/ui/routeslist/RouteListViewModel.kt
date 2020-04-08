@@ -2,20 +2,21 @@ package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 
 import androidx.lifecycle.*
 import androidx.navigation.NavController
+import com.geekhub_android_2019.cherkasyguide.common.AppDispatchers
 import com.geekhub_android_2019.cherkasyguide.common.EventChannel
 import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.Places
 import com.geekhub_android_2019.cherkasyguide.network.NetHelper
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 
 class RouteListViewModel(
     private val repo: Repository,
-    private val netHelper: NetHelper) : ViewModel() {
+    private val netHelper: NetHelper,
+    private val dispatchers: AppDispatchers) : ViewModel() {
 
     val warn = EventChannel<Messages>()
 
@@ -27,7 +28,7 @@ class RouteListViewModel(
             .combine(userRouteF) { routes, userRoute ->
                 ViewState(routes, userRoute)
             }
-            .flowOn(Dispatchers.IO)
+            .flowOn(dispatchers.io)
             .asLiveData(viewModelScope.coroutineContext)
     }
 

@@ -7,7 +7,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelsModule = module {
-    viewModel { RouteEditViewModel(get()) }
-    viewModel { RouteListViewModel(get(), get()) }
-    viewModel { PlacesListViewModel(get()) }
+    viewModel { RouteEditViewModel(get(), get()) }
+    viewModel { RouteListViewModel(get(), get(), get()) }
+    viewModel { PlacesListViewModel(get(), get()) }
 }
