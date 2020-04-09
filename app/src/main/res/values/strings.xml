@@ -13,7 +13,7 @@
     <string name="button_car">Машиной</string>
     <string name="button_walking">Пешком</string>
     <string name="button_bus">Автобусом</string>
-    <string name="error_no_network">Нет интернета</string>
+    <string name="error_no_network">Нет подключения к Интернету. Повторите попытку позже</string>
     <string name="action_try_again">Еще разок</string>
     <string name="show_route_map_button">Карта</string>
     <plurals name="to_long_route">
@@ -23,4 +23,5 @@
     <string name="to_short_route">Маршрут должен содержать не менее двух точек</string>
     <string name="action_ok">OK</string>
     <string name="move_to">Направляйтесь к %s</string>
+    <string name="action_clear_route">Очистить маршрут</string>
 </resources>

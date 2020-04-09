@@ -7,6 +7,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
+import androidx.core.content.getSystemService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.channels.awaitClose
@@ -15,11 +16,9 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
 
 
-class NetHelper(application: Application) {
+class NetHelper(ctx: Context) {
 
-    private val connectivityManager =
-        application.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE)
-                as ConnectivityManager
+    private val connectivityManager = ctx.getSystemService<ConnectivityManager>()!!
 
     var isOnline = false
         get() {

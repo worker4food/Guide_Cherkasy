@@ -27,7 +27,7 @@ class StartScreenFragment : Fragment(R.layout.fragment_start_screen), View.OnCli
         }
         Snackbar.make(
             view,
-            "Нет подключения к Интернету. Повторите попытку позже",
+            R.string.error_no_network,
             Snackbar.LENGTH_LONG
         )
             .setAction(android.R.string.ok) {}

@@ -3,33 +3,32 @@ package com.geekhub_android_2019.cherkasyguide.ui.routeslist
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.*
 import com.geekhub_android_2019.cherkasyguide.R
 import com.geekhub_android_2019.cherkasyguide.common.Limits
+import com.geekhub_android_2019.cherkasyguide.ui.models.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_routes_list.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
 
-    private val vm by activityViewModels<RoutesViewModel>()
+    private val vm by sharedViewModel<RouteListViewModel>() //activityViewModels<RouteListViewModel>()
     private val controller: NavController
         get() = findNavController()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.routes.observe(viewLifecycleOwner, Observer {
+        vm.routes.observe(viewLifecycleOwner) {
             routeListSpinner.visibility = View.GONE
 
             it?.let(::assembleView)
-        })
+        }
 
-        vm.warn.observe(lifecycleScope) {
+        vm.warn.observe(viewLifecycleOwner) {
             val msg = when (it) {
                 Messages.ROUTE_TO_SHORT -> resources.getString(R.string.to_short_route)
                 Messages.ROUTE_TO_LONG -> resources.getQuantityString(
@@ -37,6 +36,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
                     Limits.MAX_PLACES,
                     Limits.MAX_PLACES
                 )
+                Messages.NO_NETWORK -> resources.getString(R.string.error_no_network)
             }
 
             Snackbar.make(requireView(), msg, Snackbar.LENGTH_LONG)
@@ -72,7 +72,7 @@ class RouteListFragment : Fragment(R.layout.fragment_routes_list) {
             val buttonTextId =
                 if (userRouteExists) R.string.edit_user_route else R.string.create_new_route
 
-            createEditRoute {
+            textButton {
                 id("create-edit-user-route")
                 titleId(buttonTextId)
                 listener { _ -> vm.createEditRoute(controller) }

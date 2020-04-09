@@ -4,18 +4,16 @@ import com.geekhub_android_2019.cherkasyguide.common.Collection
 import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.models.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 import java.lang.IllegalArgumentException
 
-class Repository {
-
-    private val rootRef by lazy {
-        Firebase.firestore
-    }
+class Repository(
+    private val rootRef: DocumentReference,
+    private val fireAuth: FirebaseAuth
+) {
 
     fun getPlaceById(id: String): Flow<Place> =
         rootRef.collection(Collection.PLACES).document(id).asFlow()
@@ -37,7 +35,7 @@ class Repository {
 
     fun getUserRouteOrNUll(): Flow<UserRoute?> =
         rootRef.collection(Collection.USER_ROUTES)
-            .document(FirebaseAuth.getInstance().uid!!)
+            .document(fireAuth.uid!!)
             .asNullableFlow<Internal.UserRoute>()
             .flatMapLatest { rawRoute ->
                 rawRoute
@@ -47,7 +45,7 @@ class Repository {
             }
 
     suspend fun updateUserRoute(r: UserRoute) {
-        val uid = FirebaseAuth.getInstance().uid!!
+        val uid = fireAuth.uid!!
         val placeRefs = r.places.map {
             rootRef.collection(Collection.USER_ROUTES).document(it.id!!)
         }
@@ -57,6 +55,9 @@ class Repository {
             .set(Internal.UserRoute(r.id, placeRefs))
             .await()
     }
+
+    suspend fun clearUserRoute(): Unit =
+        updateUserRoute(UserRoute(fireAuth.uid!!, emptyList()))
 
     private fun fetchPlaces(placeIds_: List<String>): Flow<List<Place>> {
         val placeIds = placeIds_.take(Limits.MAX_PLACES)

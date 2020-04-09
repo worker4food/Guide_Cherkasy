@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -19,12 +18,12 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_places_list.*
 import kotlinx.android.synthetic.main.fragment_places_list.view.*
-
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
 
     private lateinit var mAdapter: PlacesAdapter
-    private val listViewModel by activityViewModels<PlacesListViewModel>()
+    private val listViewModel by sharedViewModel<PlacesListViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,12 +50,11 @@ class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         listViewModel.places.observe(viewLifecycleOwner, Observer<List<Place>> {
             mAdapter = PlacesAdapter(listViewModel.places.value!!, clickListener = this)
             recyclerView.apply {
                 adapter = mAdapter
-                layoutManager = LinearLayoutManager(activity)
-                scrollToPosition(0)
                 visibility = View.VISIBLE
             }
             mAdapter.notifyDataSetChanged()
@@ -71,7 +69,7 @@ class PlacesListFragment : Fragment(), PlacesAdapter.OnItemClickListener {
         val snackbar =
             Snackbar.make(
                 requireView(),
-                "Нет подключения к Интернету. Повторите попытку позже",
+                R.string.error_no_network,
                 Snackbar.LENGTH_LONG
             )
         snackbar.anchorView = bottom_nav_view
