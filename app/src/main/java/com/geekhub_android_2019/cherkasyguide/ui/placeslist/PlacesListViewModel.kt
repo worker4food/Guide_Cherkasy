@@ -1,10 +1,7 @@
 package com.geekhub_android_2019.cherkasyguide.ui.placeslist
 
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.navigation.findNavController
 import com.geekhub_android_2019.cherkasyguide.common.AppDispatchers
 import com.geekhub_android_2019.cherkasyguide.data.Repository

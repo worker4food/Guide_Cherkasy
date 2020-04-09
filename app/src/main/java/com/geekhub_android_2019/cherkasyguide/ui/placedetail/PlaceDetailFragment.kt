@@ -16,24 +16,24 @@ import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
 import kotlinx.android.synthetic.main.fragment_place_detail.view.*
 
 
-class PlaceDetailFragment : Fragment() {
+class PlaceDetailFragment() : Fragment() {
 
-   private val placeArgs by navArgs<PlaceDetailFragmentArgs>()
+    private val placeArgs by navArgs<PlaceDetailFragmentArgs>()
     private val detailViewModel by activityViewModels<PlaceDetailViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater ,
-        container: ViewGroup? ,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val fragmentLayout = inflater.inflate(R.layout.fragment_place_detail , container , false)
+        val fragmentLayout = inflater.inflate(R.layout.fragment_place_detail, container, false)
         val navController = NavHostFragment.findNavController(this)
         val bottomBar = view?.findViewById<NavigationView>(R.id.bottom_nav_view)
         bottomBar?.setupWithNavController(navController)
         fragmentLayout.bottom_nav_view.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.map_nav -> {
-                    detailViewModel.replaceDetailFragment(this.requireView() , placeArgs.place)
+                    detailViewModel.replaceDetailFragment(this.requireView(), placeArgs.place)
                 }
             }
             return@setOnNavigationItemSelectedListener true
@@ -41,8 +41,8 @@ class PlaceDetailFragment : Fragment() {
         return fragmentLayout
     }
 
-    override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
-        super.onViewCreated(view , savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val viewPager = view.findViewById<ViewPager>(R.id.viewPager)
         viewPager.adapter =
             placeArgs.place.photoLargeUrl?.let { it1 -> PlaceDetailPagerAdapter(photos = it1) }

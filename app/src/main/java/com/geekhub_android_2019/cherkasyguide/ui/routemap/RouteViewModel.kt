@@ -114,8 +114,8 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
                 clearMap(mMap)
                 setUpMarker(markers[0], (count+1).toString(), mMap)
                 setUpMarker(markers[1], (count+2).toString(), mMap)
-                drawStepPolyline(mMap, count)
                 animateCamera(mMap, updateCameraBounds(markers))
+                drawStepPolyline(mMap, count)
             }
 
             if (count == placesForRoute.size - 2) {
