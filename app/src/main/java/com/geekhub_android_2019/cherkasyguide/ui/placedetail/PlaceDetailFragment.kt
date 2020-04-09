@@ -16,7 +16,7 @@ import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
 import kotlinx.android.synthetic.main.fragment_place_detail.view.*
 
 
-class PlaceDetailFragment() : Fragment() {
+class PlaceDetailFragment : Fragment() {
 
     private val placeArgs by navArgs<PlaceDetailFragmentArgs>()
     private val detailViewModel by activityViewModels<PlaceDetailViewModel>()
