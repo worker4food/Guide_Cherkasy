@@ -60,4 +60,3 @@ class RouteListViewModel(
             warn.offer(Messages.NO_NETWORK)
     }
 }
-

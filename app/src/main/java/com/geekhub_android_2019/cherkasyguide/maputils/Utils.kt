@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.Places
+import com.geekhub_android_2019.cherkasyguide.models.routeapiresponse.RoutesItem
 import com.google.android.gms.maps.model.*
 
 object Utils {
@@ -22,6 +23,19 @@ object Utils {
         for (marker in markerList) {
             builder.include(marker.position)
         }
+        return builder.build()
+    }
+
+    fun setUpRouteBounds(route: RoutesItem): LatLngBounds {
+        builder = LatLngBounds.builder()
+        if (route.bounds != null) {
+            val southwest = route.bounds.southwest!!
+            val northeast = route.bounds.northeast!!
+            builder.include(LatLng(southwest.lat!!, southwest.lng!!))
+            builder.include(LatLng(northeast.lat!!, northeast.lng!!))
+        } else throw NullPointerException(
+            "Expression 'route.bounds' must not be null"
+        )
         return builder.build()
     }
 

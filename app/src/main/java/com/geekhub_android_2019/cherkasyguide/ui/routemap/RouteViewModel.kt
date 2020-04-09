@@ -18,7 +18,7 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
     private lateinit var placesForRoute: Places
 
     private var _endPlace = MutableLiveData<Place>()
-    val endPlace = _endPlace
+    val endPlace: LiveData<Place> = _endPlace
 
     private var _lastRadioState = MutableLiveData<Int> (R.id.button_car)
     val lastRadioState: LiveData<Int> = _lastRadioState
@@ -72,7 +72,7 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
         _statusDrawButton.value = false
     }
 
-    private fun buildWaypoints(): String {
+    fun buildWaypoints(): String {
         val waypointsBuilder = StringBuilder("")
         if (placesForRoute.size > 2) {
             var startElement = 1
@@ -90,9 +90,9 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
         return waypointsBuilder.toString()
     }
 
-    fun selectTypeOfRoute(view: View) {
-        _lastRadioState.value = view.id
-        when (view.id) {
+    fun selectTypeOfRoute(id: Int) {
+        _lastRadioState.value = id
+        when (id) {
             R.id.button_car -> {
                 _typeOfRoute.value = "driving"
             }
@@ -106,7 +106,7 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
             val startPoint = placesForRoute[count]
             val endPoint = placesForRoute[count + 1]
             _endPlace.value = endPoint
-            val places: Places = Places()
+            val places = Places()
             places.add(startPoint)
             places.add(endPoint)
             val markers = Utils.getMarkerList(places)
@@ -114,8 +114,8 @@ class RouteViewModel : ViewModel(), OnDrawRouteFailure {
                 clearMap(mMap)
                 setUpMarker(markers[0], (count+1).toString(), mMap)
                 setUpMarker(markers[1], (count+2).toString(), mMap)
-                drawStepPolyline(mMap, count)
                 animateCamera(mMap, updateCameraBounds(markers))
+                drawStepPolyline(mMap, count)
             }
 
             if (count == placesForRoute.size - 2) {

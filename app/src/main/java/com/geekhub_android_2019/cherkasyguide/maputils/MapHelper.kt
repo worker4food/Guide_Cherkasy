@@ -3,6 +3,7 @@ package com.geekhub_android_2019.cherkasyguide.maputils
 import android.content.Context
 import android.graphics.BitmapFactory
 import com.geekhub_android_2019.cherkasyguide.R
+import com.geekhub_android_2019.cherkasyguide.maputils.Utils.setUpRouteBounds
 import com.geekhub_android_2019.cherkasyguide.models.routeapiresponse.DirectionResponse
 import com.geekhub_android_2019.cherkasyguide.models.routeapiresponse.RoutesItem
 import com.geekhub_android_2019.cherkasyguide.routeapi.DirectionsApiFactory
@@ -52,7 +53,7 @@ object MapHelper {
     fun updateCameraZoom(markerList: ArrayList<PlaceMarker>): CameraUpdate {
         return CameraUpdateFactory.newLatLngZoom(
             markerList[0].position,
-            15.0f
+            16.0f
         )
     }
 
@@ -66,12 +67,13 @@ object MapHelper {
         googleMap: GoogleMap,
         markerList: ArrayList<PlaceMarker>,
         context: Context
-    ) {
+    ): ClusterManager<PlaceMarker> {
         val manager = ClusterManager<PlaceMarker>(context, googleMap)
         manager.renderer = ClusterMarkerRenderer(context, googleMap, manager)
         manager.algorithm = GridBasedAlgorithm()
         manager.addItems(markerList)
         manager.cluster()
+        return manager
     }
 
     fun setUpMarker(marker: PlaceMarker, number: String, googleMap: GoogleMap) {
@@ -119,6 +121,7 @@ object MapHelper {
             16F,
             context.getColor(R.color.polylineColor)
         )
+        animateCamera(googleMap, CameraUpdateFactory.newLatLngBounds(setUpRouteBounds(route), 150))
     }
 
     fun drawStepPolyline(googleMap: GoogleMap, count: Int) {
@@ -129,15 +132,21 @@ object MapHelper {
             val points = it?.polyline?.points
             path.add(PolyUtil.decode(points))
         }
-        path.forEach {
+        path.forEach { list ->
             routePolyline = addPolyline(
-                googleMap, it, 16F, context.getColor(R.color.colorSecondaryDark)
+                googleMap, list, 16F, context.getColor(R.color.colorSecondaryDark)
             )
             polylines.add(routePolyline)
         }
+
     }
 
-    fun addPolyline(googleMap: GoogleMap, list: List<LatLng>, width: Float, color: Int): Polyline {
+    private fun addPolyline(
+        googleMap: GoogleMap,
+        list: List<LatLng>,
+        width: Float,
+        color: Int
+    ): Polyline {
         return googleMap.addPolyline(
             Utils.polylineOptions(list, width, color)
         )
