@@ -6,19 +6,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
+import com.geekhub_android_2019.cherkasyguide.common.AppDispatchers
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.Places
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 
-class PlacesListViewModel( private val repo:Repository = Repository()) : ViewModel() {
+class PlacesListViewModel(repo: Repository, dispatchers: AppDispatchers) : ViewModel() {
 
-    val places: LiveData<List<Place>> = repo.getPlaces()
-        .flowOn(Dispatchers.IO)
-        .conflate()
-        .asLiveData(viewModelScope.coroutineContext)
+    val places: LiveData<List<Place>> by lazy {
+        repo.getPlaces()
+            .flowOn(dispatchers.io)
+            .conflate()
+            .asLiveData(viewModelScope.coroutineContext)
+    }
 
     fun list(view: View, place: Place) {
         PlacesListFragmentDirections.actionPlacesListFragmentToPlaceDetailFragment(

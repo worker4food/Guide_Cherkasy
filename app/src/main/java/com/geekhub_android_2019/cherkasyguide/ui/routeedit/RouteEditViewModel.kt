@@ -1,20 +1,21 @@
 package com.geekhub_android_2019.cherkasyguide.ui.routeedit
 
 import androidx.lifecycle.*
+import com.geekhub_android_2019.cherkasyguide.common.AppDispatchers
 import com.geekhub_android_2019.cherkasyguide.common.Limits
 import com.geekhub_android_2019.cherkasyguide.common.EventChannel
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
 import com.geekhub_android_2019.cherkasyguide.models.UserRoute
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
-class RouteEditViewModel : ViewModel() {
-
-    private val repo: Repository = Repository()
+class RouteEditViewModel(
+    private val repo: Repository,
+    private val dispatchers: AppDispatchers
+) : ViewModel() {
 
     val warn = EventChannel<Messages>()
 
@@ -26,12 +27,12 @@ class RouteEditViewModel : ViewModel() {
             .combine(userRouteF) { places, userRoute ->
                 ViewState(places, userRoute)
             }
-            .flowOn(Dispatchers.IO)
+            .flowOn(dispatchers.io)
             .conflate()
             .asLiveData(viewModelScope.coroutineContext)
     }
 
-    fun toggleCheck(place: Place) = viewModelScope.launch(Dispatchers.IO) {
+    fun toggleCheck(place: Place) = viewModelScope.launch(dispatchers.io) {
         val (id, selected) = state.value?.userRoute ?: UserRoute()
 
         val newPlaces =

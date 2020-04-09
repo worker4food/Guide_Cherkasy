@@ -5,13 +5,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import com.geekhub_android_2019.cherkasyguide.TestCoroutineRule
 import com.geekhub_android_2019.cherkasyguide.data.Repository
 import com.geekhub_android_2019.cherkasyguide.models.Place
+import com.geekhub_android_2019.cherkasyguide.utils.CoroutineTestRule
+import com.geekhub_android_2019.cherkasyguide.utils.runBlockingTest
 import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -40,7 +40,7 @@ class PlacesListViewModelTest {
 
     @ExperimentalCoroutinesApi
     @get:Rule
-    var testCoroutineRule = TestCoroutineRule()
+    var testCoroutineRule = CoroutineTestRule()
 
     @Rule
     @JvmField
@@ -61,7 +61,7 @@ class PlacesListViewModelTest {
         )
         `when`(repo.getPlaces())
             .thenReturn(flowOf(place))
-        placesListViewModel = PlacesListViewModel(repo)
+        placesListViewModel = PlacesListViewModel(repo, testCoroutineRule.testDispatchers)
         assertNotNull(flowOf(placesListViewModel.places))
     }
 
@@ -73,7 +73,7 @@ class PlacesListViewModelTest {
             )
             `when`(repo.getPlaces())
                 .thenReturn(flowOf(place))
-            placesListViewModel = PlacesListViewModel(repo)
+            placesListViewModel = PlacesListViewModel(repo, testCoroutineRule.testDispatchers)
             val result = placesListViewModel.places
             placesListViewModel.places.observeForever(observer)
             verify(observer).onChanged(result.value)

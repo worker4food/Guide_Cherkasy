@@ -10,8 +10,10 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
 val appModules = listOf(
+    dispatchersModule,
     netHelperModule,
-    routesModule
+    repositoryModule,
+    viewModelsModule
 )
 
 class AppClass : Application() {
@@ -25,7 +27,7 @@ class AppClass : Application() {
             androidLogger(if(BuildConfig.DEBUG) Level.DEBUG else Level.INFO)
             androidContext(this@AppClass)
 
-            modules(appModules)
+            modules(appModules + firebaseModule)
         }
     }
 }
